@@ -35,7 +35,8 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
             FirstName = command.FirstName,
             LastName = command.LastName,
             Email = command.Email,
-            Password = _passwordHelper.HashPassword(command.Password)
+            Password = _passwordHelper.HashPassword(command.Password),
+            Gender = command.Gender
         };
 
         await _userRepository.AddAsync(user);

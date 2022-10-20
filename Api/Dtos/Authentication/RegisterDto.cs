@@ -1,3 +1,5 @@
-﻿namespace Api.Dtos.Authentication;
+﻿using Domain.Enums;
 
-public record RegisterDto(string FirstName, string LastName, string Email, string Password);
+namespace Api.Dtos.Authentication;
+
+public record RegisterDto(string FirstName, string LastName, string Email, string Password, Gender Gender);

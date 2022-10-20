@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities;
+﻿using Domain.Enums;
+
+namespace Domain.Entities;
 
 public class User
 {
@@ -11,4 +13,6 @@ public class User
     public string Email { get; set; } = null!;
 
     public string Password { get; set; } = null!;
+    
+    public Gender Gender { get; set; }
 }

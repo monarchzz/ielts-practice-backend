@@ -36,6 +36,10 @@ namespace EFCore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -54,6 +58,7 @@ namespace EFCore.Migrations
                             Id = new Guid("c54a474e-ac00-4057-85b2-ed407135d528"),
                             Email = "admin@gmail.com",
                             FirstName = "Admin",
+                            Gender = "Male",
                             LastName = "Default",
                             Password = "$2a$11$2yetTvA.CA3opcE1Ixr1I.WBqBEZsrl0vI2MWPhAYT6tt0/rf5XWa"
                         });
