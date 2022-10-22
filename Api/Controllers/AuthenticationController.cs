@@ -24,6 +24,7 @@ public class AuthenticationController : ApiController
     }
 
     [HttpPost("register")]
+    [ProducesResponseType(typeof(AuthenticationDto), StatusCodes.Status200OK)]
     public async Task<IActionResult> Register(RegisterDto request)
     {
         var command = _mapper.Map<RegisterCommand>(request);
@@ -35,22 +36,24 @@ public class AuthenticationController : ApiController
     }
 
     [HttpPost("login")]
+    [ProducesResponseType(typeof(AuthenticationDto), StatusCodes.Status200OK)]
     public async Task<IActionResult> Login(LoginDto request)
     {
         var query = _mapper.Map<LoginQuery>(request);
         var authResult = await _mediator.Send(query);
-        
+
         return authResult.Match(
             success => Ok(_mapper.Map<AuthenticationDto>(success)),
             Problem);
     }
-    
+
     [HttpPost("refresh-token")]
-    public async  Task<IActionResult> RefreshToken(RefreshTokenDto request)
+    [ProducesResponseType(typeof(AuthenticationDto), StatusCodes.Status200OK)]
+    public async Task<IActionResult> RefreshToken(RefreshTokenDto request)
     {
         var query = _mapper.Map<RefreshTokenQuery>(request);
         var authResult = await _mediator.Send(query);
-        
+
         return authResult.Match(
             success => Ok(_mapper.Map<AuthenticationDto>(success)),
             Problem);

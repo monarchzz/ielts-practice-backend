@@ -8,6 +8,7 @@ namespace Api.Controllers;
 
 [ApiController]
 [Authorize]
+[Produces("application/json")]
 public class ApiController : ControllerBase
 {
     protected string? CurrentUserId => HttpContext.User.Claims.FirstOrDefault()?.Value;

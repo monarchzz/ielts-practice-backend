@@ -2,6 +2,7 @@
 using Application.Authentication.Commands;
 using Application.Authentication.Common;
 using Application.Common.Behaviors;
+using Application.Common.Mapping;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using ErrorOr;
@@ -16,6 +17,7 @@ public static class DependencyInjection
         services.AddMediatR(typeof(DependencyInjection).Assembly);
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        services.AddMappings();
 
         return services;
     }
