@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities;
 
-public class Exam
+public class Censor
 {
     public Guid Id { get; set; }
 }

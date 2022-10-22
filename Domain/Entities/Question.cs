@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities;
 
-public class Exam
+public class Question
 {
     public Guid Id { get; set; }
 }
