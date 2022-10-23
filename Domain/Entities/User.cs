@@ -15,4 +15,18 @@ public class User
     public string Password { get; set; } = null!;
 
     public Gender Gender { get; set; }
+
+    #region Avatar
+
+    public Guid? AvatarId { get; set; }
+
+    public Attachment Avatar { get; set; } = null!;
+
+    #endregion
+
+    #region UserTraining
+
+    public ICollection<Activity> Activities { get; set; } = null!;
+
+    #endregion
 }
