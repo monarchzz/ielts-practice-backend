@@ -6,14 +6,6 @@ public class UserAnswer
 
     public string? Words { get; set; }
 
-    #region Answer
-
-    public Guid AnswerId { get; set; }
-
-    public Answer Answer { get; set; } = null!;
-
-    #endregion
-
     #region Audio Recording
 
     public Guid? AudioRecordingId { get; set; }
@@ -22,11 +14,27 @@ public class UserAnswer
 
     #endregion
 
-    #region Activity
+    #region Testing
 
-    public Guid ActivityId { get; set; }
+    public Guid TestingId { get; set; }
 
-    public Activity Activity { get; set; } = null!;
+    public Testing Testing { get; set; } = null!;
+
+    #endregion
+
+    #region Answer
+
+    public Guid? AnswerId { get; set; }
+
+    public Answer Answer { get; set; } = null!;
+
+    #endregion
+
+    #region Question
+
+    public Guid QuestionId { get; set; }
+
+    public Question Question { get; set; } = null!;
 
     #endregion
 }

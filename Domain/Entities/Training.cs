@@ -34,11 +34,19 @@ public class Training
 
     #endregion
 
-    #region Author
+    #region Censor
 
-    public Guid? AuthorId { get; set; }
+    public Guid CensorId { get; set; }
 
-    public Censor Author { get; set; } = null!;
+    public Censor Censor { get; set; } = null!;
+
+    #endregion
+
+    #region Exam
+
+    public Guid? ExamId { get; set; }
+
+    public Exam Exam { get; set; } = null!;
 
     #endregion
 
@@ -48,11 +56,9 @@ public class Training
 
     #endregion
 
-    #region Exams
+    #region Testing
 
-    public Exam ListeningSessionExam { get; set; } = null!;
-
-    public Exam SpeakingSessionExam { get; set; } = null!;
+    public ICollection<Testing> Testings { get; set; } = null!;
 
     #endregion
 }

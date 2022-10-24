@@ -37,4 +37,10 @@ public class Censor
     public ICollection<Training> Trainings { get; set; } = null!;
 
     #endregion
+
+    #region Testing
+
+    public ICollection<Testing> Testings { get; set; } = null!;
+
+    #endregion
 }

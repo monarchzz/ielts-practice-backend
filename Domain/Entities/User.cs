@@ -24,9 +24,9 @@ public class User
 
     #endregion
 
-    #region UserTraining
+    #region Testing
 
-    public ICollection<Activity> Activities { get; set; } = null!;
+    public ICollection<Testing> Testings { get; set; } = null!;
 
     #endregion
 }

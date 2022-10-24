@@ -15,7 +15,7 @@ public class AppDbContext : DbContext
     public DbSet<Training> Training { get; set; } = null!;
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<UserAnswer> UserAnswers { get; set; } = null!;
-    public DbSet<Activity> Activities { get; set; } = null!;
+    public DbSet<Testing> Activities { get; set; } = null!;
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -45,19 +45,6 @@ public class AppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         #region Configure Entity
-
-        modelBuilder.Entity<Activity>(activity =>
-        {
-            activity.HasKey(x => x.Id);
-
-            activity.Property(x => x.Duration).IsRequired().HasConversion<long>();
-            activity.Property(x => x.Date).IsRequired();
-            activity.Property(x => x.SpeakingScores).IsRequired();
-            activity.Property(x => x.UserId).IsRequired();
-
-            activity.HasOne(x => x.User).WithMany(x => x.Activities).HasForeignKey(x => x.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
-        });
 
         modelBuilder.Entity<Answer>(answer =>
         {
@@ -104,15 +91,9 @@ public class AppDbContext : DbContext
 
             exam.Property(x => x.Name).IsRequired().HasColumnType("nvarchar(200)");
             exam.Property(x => x.Status).IsRequired().HasColumnType("varchar(20)");
-            exam.Property(x => x.ListeningSessionId).IsRequired();
-            exam.Property(x => x.SpeakingSessionId).IsRequired();
-            exam.Property(x => x.AuthorId).IsRequired(false);
+            exam.Property(x => x.CensorId).IsRequired();
 
-            exam.HasOne(x => x.ListeningSession).WithOne(x => x.ListeningSessionExam)
-                .HasForeignKey<Exam>(x => x.ListeningSessionId).OnDelete(DeleteBehavior.NoAction);
-            exam.HasOne(x => x.SpeakingSession).WithOne(x => x.SpeakingSessionExam)
-                .HasForeignKey<Exam>(x => x.SpeakingSessionId).OnDelete(DeleteBehavior.NoAction);
-            exam.HasOne(x => x.Author).WithMany(x => x.Exams).HasForeignKey(x => x.AuthorId);
+            exam.HasOne(x => x.Censor).WithMany(x => x.Exams).HasForeignKey(x => x.CensorId);
         });
 
         modelBuilder.Entity<Question>(question =>
@@ -128,6 +109,28 @@ public class AppDbContext : DbContext
             question.HasOne(x => x.Training).WithMany(x => x.Questions).HasForeignKey(x => x.TrainingId);
         });
 
+        modelBuilder.Entity<Testing>(testing =>
+        {
+            testing.HasKey(x => x.Id);
+
+            testing.Property(x => x.Duration).IsRequired().HasConversion<long>();
+            testing.Property(x => x.Date).IsRequired();
+            testing.Property(x => x.SpeakingScores).IsRequired(false);
+            testing.Property(x => x.UserId).IsRequired();
+            testing.Property(x => x.CensorId).IsRequired(false);
+            testing.Property(x => x.ExamId).IsRequired(false);
+            testing.Property(x => x.TrainingId).IsRequired(false);
+
+            testing.HasOne(x => x.User).WithMany(x => x.Testings).HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+            testing.HasOne(x => x.Censor).WithMany(x => x.Testings).HasForeignKey(x => x.CensorId)
+                .OnDelete(DeleteBehavior.NoAction);
+            testing.HasOne(x => x.Exam).WithMany(x => x.Testings).HasForeignKey(x => x.ExamId)
+                .OnDelete(DeleteBehavior.NoAction);
+            testing.HasOne(x => x.Training).WithMany(x => x.Testings).HasForeignKey(x => x.TrainingId)
+                .OnDelete(DeleteBehavior.NoAction);
+        });
+
         modelBuilder.Entity<Training>(training =>
         {
             training.HasKey(x => x.Id);
@@ -140,9 +143,12 @@ public class AppDbContext : DbContext
             training.Property(x => x.ForExamOnly).IsRequired().HasDefaultValue(false);
             training.Property(x => x.ImageId).IsRequired(false);
             training.Property(x => x.AudioId).IsRequired(false);
-            training.Property(x => x.AuthorId).IsRequired(false);
+            training.Property(x => x.CensorId).IsRequired();
+            training.Property(x => x.ExamId).IsRequired(false);
 
-            training.HasOne(x => x.Author).WithMany(x => x.Trainings).HasForeignKey(x => x.AuthorId);
+            training.HasOne(x => x.Censor).WithMany(x => x.Trainings).HasForeignKey(x => x.CensorId);
+            training.HasOne(x => x.Exam).WithMany(x => x.Trainings).HasForeignKey(x => x.ExamId)
+                .OnDelete(DeleteBehavior.NoAction);
             training.HasOne(x => x.Image).WithOne(x => x.ImageTraining).HasForeignKey<Training>(x => x.ImageId)
                 .OnDelete(DeleteBehavior.NoAction);
             training.HasOne(x => x.Audio).WithOne(x => x.AudioTraining).HasForeignKey<Training>(x => x.AudioId)
@@ -173,12 +179,15 @@ public class AppDbContext : DbContext
             userAnswer.Property(x => x.Words).IsRequired().HasColumnType("nvarchar(500)");
             userAnswer.Property(x => x.AnswerId).IsRequired();
             userAnswer.Property(x => x.AudioRecordingId).IsRequired(false);
-            userAnswer.Property(x => x.ActivityId).IsRequired();
+            userAnswer.Property(x => x.TestingId).IsRequired();
+            userAnswer.Property(x => x.QuestionId).IsRequired();
+            userAnswer.Property(x => x.AnswerId).IsRequired(false);
 
-            userAnswer.HasOne(x => x.Activity).WithMany(x => x.UserAnswers).HasForeignKey(x => x.ActivityId);
             userAnswer.HasOne(x => x.AudioRecording).WithOne(x => x.UserAnswer)
                 .HasForeignKey<UserAnswer>(x => x.AudioRecordingId).OnDelete(DeleteBehavior.NoAction);
+            userAnswer.HasOne(x => x.Testing).WithMany(x => x.UserAnswers).HasForeignKey(x => x.TestingId);
             userAnswer.HasOne(x => x.Answer).WithMany(x => x.UserAnswers).HasForeignKey(x => x.AnswerId);
+            userAnswer.HasOne(x => x.Question).WithMany(x => x.UserAnswers).HasForeignKey(x => x.QuestionId);
         });
 
         #endregion

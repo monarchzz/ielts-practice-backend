@@ -28,4 +28,10 @@ public class Question
     public ICollection<Answer> Answers { get; set; } = null!;
 
     #endregion
+
+    #region UserAnswer
+
+    public ICollection<UserAnswer> UserAnswers { get; set; } = null!;
+
+    #endregion
 }
