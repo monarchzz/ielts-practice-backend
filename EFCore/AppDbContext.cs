@@ -15,7 +15,7 @@ public class AppDbContext : DbContext
     public DbSet<Training> Training { get; set; } = null!;
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<UserAnswer> UserAnswers { get; set; } = null!;
-    public DbSet<Testing> Activities { get; set; } = null!;
+    public DbSet<Testing> Testings { get; set; } = null!;
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -187,7 +187,8 @@ public class AppDbContext : DbContext
                 .HasForeignKey<UserAnswer>(x => x.AudioRecordingId).OnDelete(DeleteBehavior.NoAction);
             userAnswer.HasOne(x => x.Testing).WithMany(x => x.UserAnswers).HasForeignKey(x => x.TestingId);
             userAnswer.HasOne(x => x.Answer).WithMany(x => x.UserAnswers).HasForeignKey(x => x.AnswerId);
-            userAnswer.HasOne(x => x.Question).WithMany(x => x.UserAnswers).HasForeignKey(x => x.QuestionId);
+            userAnswer.HasOne(x => x.Question).WithMany(x => x.UserAnswers).HasForeignKey(x => x.QuestionId)
+                .OnDelete(DeleteBehavior.NoAction);
         });
 
         #endregion

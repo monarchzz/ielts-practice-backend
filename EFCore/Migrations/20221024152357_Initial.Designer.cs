@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221023161815_Initial")]
+    [Migration("20221024152357_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,33 +23,6 @@ namespace EFCore.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("Domain.Entities.Activity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("Duration")
-                        .HasColumnType("bigint");
-
-                    b.Property<double>("SpeakingScores")
-                        .HasColumnType("float");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Activities");
-
-                    b.HasCheckConstraint("CK_Activities_SpeakingScores_Range", "[SpeakingScores] >= 0.0E0 AND [SpeakingScores] <= 10.0E0");
-                });
 
             modelBuilder.Entity("Domain.Entities.Answer", b =>
                 {
@@ -155,18 +128,12 @@ namespace EFCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AuthorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ListeningSessionId")
+                    b.Property<Guid>("CensorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<Guid>("SpeakingSessionId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -174,13 +141,7 @@ namespace EFCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("ListeningSessionId")
-                        .IsUnique();
-
-                    b.HasIndex("SpeakingSessionId")
-                        .IsUnique();
+                    b.HasIndex("CensorId");
 
                     b.ToTable("Exams");
                 });
@@ -217,6 +178,48 @@ namespace EFCore.Migrations
                     b.HasCheckConstraint("CK_Questions_Ordinal_Range", "[Ordinal] >= CAST(1 AS smallint) AND [Ordinal] <= CAST(1000 AS smallint)");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Testing", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CensorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("Duration")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid?>("ExamId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double?>("SpeakingScores")
+                        .HasColumnType("float");
+
+                    b.Property<Guid?>("TrainingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CensorId");
+
+                    b.HasIndex("ExamId");
+
+                    b.HasIndex("TrainingId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Testings");
+
+                    b.HasCheckConstraint("CK_Testings_SpeakingScores_Range", "[SpeakingScores] >= 0.0E0 AND [SpeakingScores] <= 10.0E0");
+                });
+
             modelBuilder.Entity("Domain.Entities.Training", b =>
                 {
                     b.Property<Guid>("Id")
@@ -226,7 +229,10 @@ namespace EFCore.Migrations
                     b.Property<Guid?>("AudioId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AuthorId")
+                    b.Property<Guid>("CensorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ExamId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("ForExamOnly")
@@ -263,7 +269,9 @@ namespace EFCore.Migrations
                         .IsUnique()
                         .HasFilter("[AudioId] IS NOT NULL");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("CensorId");
+
+                    b.HasIndex("ExamId");
 
                     b.HasIndex("ImageId")
                         .IsUnique()
@@ -330,13 +338,16 @@ namespace EFCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ActivityId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AnswerId")
+                    b.Property<Guid?>("AnswerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("AudioRecordingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("QuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TestingId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Words")
@@ -345,26 +356,17 @@ namespace EFCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ActivityId");
-
                     b.HasIndex("AnswerId");
 
                     b.HasIndex("AudioRecordingId")
                         .IsUnique()
                         .HasFilter("[AudioRecordingId] IS NOT NULL");
 
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("TestingId");
+
                     b.ToTable("UserAnswers");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Activity", b =>
-                {
-                    b.HasOne("Domain.Entities.User", "User")
-                        .WithMany("Activities")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entities.Answer", b =>
@@ -391,29 +393,13 @@ namespace EFCore.Migrations
 
             modelBuilder.Entity("Domain.Entities.Exam", b =>
                 {
-                    b.HasOne("Domain.Entities.Censor", "Author")
+                    b.HasOne("Domain.Entities.Censor", "Censor")
                         .WithMany("Exams")
-                        .HasForeignKey("AuthorId")
+                        .HasForeignKey("CensorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Training", "ListeningSession")
-                        .WithOne("ListeningSessionExam")
-                        .HasForeignKey("Domain.Entities.Exam", "ListeningSessionId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Training", "SpeakingSession")
-                        .WithOne("SpeakingSessionExam")
-                        .HasForeignKey("Domain.Entities.Exam", "SpeakingSessionId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-
-                    b.Navigation("ListeningSession");
-
-                    b.Navigation("SpeakingSession");
+                    b.Navigation("Censor");
                 });
 
             modelBuilder.Entity("Domain.Entities.Question", b =>
@@ -427,6 +413,41 @@ namespace EFCore.Migrations
                     b.Navigation("Training");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Testing", b =>
+                {
+                    b.HasOne("Domain.Entities.Censor", "Censor")
+                        .WithMany("Testings")
+                        .HasForeignKey("CensorId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Exam", "Exam")
+                        .WithMany("Testings")
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Training", "Training")
+                        .WithMany("Testings")
+                        .HasForeignKey("TrainingId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("Testings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Censor");
+
+                    b.Navigation("Exam");
+
+                    b.Navigation("Training");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Domain.Entities.Training", b =>
                 {
                     b.HasOne("Domain.Entities.Attachment", "Audio")
@@ -435,10 +456,16 @@ namespace EFCore.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Censor", "Author")
+                    b.HasOne("Domain.Entities.Censor", "Censor")
                         .WithMany("Trainings")
-                        .HasForeignKey("AuthorId")
+                        .HasForeignKey("CensorId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Exam", "Exam")
+                        .WithMany("Trainings")
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Attachment", "Image")
@@ -449,7 +476,9 @@ namespace EFCore.Migrations
 
                     b.Navigation("Audio");
 
-                    b.Navigation("Author");
+                    b.Navigation("Censor");
+
+                    b.Navigation("Exam");
 
                     b.Navigation("Image");
                 });
@@ -467,12 +496,6 @@ namespace EFCore.Migrations
 
             modelBuilder.Entity("Domain.Entities.UserAnswer", b =>
                 {
-                    b.HasOne("Domain.Entities.Activity", "Activity")
-                        .WithMany("UserAnswers")
-                        .HasForeignKey("ActivityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entities.Answer", "Answer")
                         .WithMany("UserAnswers")
                         .HasForeignKey("AnswerId")
@@ -485,16 +508,25 @@ namespace EFCore.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Activity");
+                    b.HasOne("Domain.Entities.Question", "Question")
+                        .WithMany("UserAnswers")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Testing", "Testing")
+                        .WithMany("UserAnswers")
+                        .HasForeignKey("TestingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Answer");
 
                     b.Navigation("AudioRecording");
-                });
 
-            modelBuilder.Entity("Domain.Entities.Activity", b =>
-                {
-                    b.Navigation("UserAnswers");
+                    b.Navigation("Question");
+
+                    b.Navigation("Testing");
                 });
 
             modelBuilder.Entity("Domain.Entities.Answer", b =>
@@ -524,28 +556,40 @@ namespace EFCore.Migrations
                 {
                     b.Navigation("Exams");
 
+                    b.Navigation("Testings");
+
+                    b.Navigation("Trainings");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Exam", b =>
+                {
+                    b.Navigation("Testings");
+
                     b.Navigation("Trainings");
                 });
 
             modelBuilder.Entity("Domain.Entities.Question", b =>
                 {
                     b.Navigation("Answers");
+
+                    b.Navigation("UserAnswers");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Testing", b =>
+                {
+                    b.Navigation("UserAnswers");
                 });
 
             modelBuilder.Entity("Domain.Entities.Training", b =>
                 {
-                    b.Navigation("ListeningSessionExam")
-                        .IsRequired();
-
                     b.Navigation("Questions");
 
-                    b.Navigation("SpeakingSessionExam")
-                        .IsRequired();
+                    b.Navigation("Testings");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
-                    b.Navigation("Activities");
+                    b.Navigation("Testings");
                 });
 #pragma warning restore 612, 618
         }
