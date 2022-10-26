@@ -95,7 +95,7 @@ public class DefaultProblemDetailsFactory : ProblemDetailsFactory
 
         if (httpContext?.Items[HttpContextItemKeys.Errors] is List<Error> errors)
         {
-            problemDetails.Extensions.Add("errorCodes", errors.Select(error => error.Code));
+            problemDetails.Extensions.Add("errors", errors.Select(error => error.Code));
         }
     }
 }

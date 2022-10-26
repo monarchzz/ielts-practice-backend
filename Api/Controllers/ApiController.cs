@@ -20,11 +20,6 @@ public class ApiController : ControllerBase
             return Problem();
         }
 
-        if (errors.All(error => error.Type == ErrorType.Validation))
-        {
-            return ValidationProblem(errors);
-        }
-
         HttpContext.Items[HttpContextItemKeys.Errors] = errors;
 
         var firstError = errors.First();
@@ -43,17 +38,5 @@ public class ApiController : ControllerBase
         };
 
         return Problem(statusCode: statusCode, title: error.Description);
-    }
-
-    private IActionResult ValidationProblem(List<Error> errors)
-    {
-        var modelStateDictionary = new ModelStateDictionary();
-
-        foreach (var error in errors)
-        {
-            modelStateDictionary.AddModelError(error.Code, error.Description);
-        }
-
-        return ValidationProblem(modelStateDictionary);
     }
 }
