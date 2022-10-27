@@ -50,6 +50,14 @@ public class Training
 
     #endregion
 
+    #region StudyProgammeSection
+
+    public Guid? StudyProgrammeSectionId { get; set; }
+
+    public StudyProgrammeSection StudyProgrammeSection { get; set; } = null!;
+
+    #endregion
+
     #region Question
 
     public ICollection<Question> Questions { get; set; } = null!;

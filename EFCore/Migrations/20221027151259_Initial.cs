@@ -26,6 +26,20 @@ namespace EFCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StudyProgrammes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(2000)", nullable: false),
+                    Type = table.Column<string>(type: "varchar(50)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudyProgrammes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Censors",
                 columns: table => new
                 {
@@ -71,6 +85,27 @@ namespace EFCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StudyProgrammeSections",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(200)", nullable: false),
+                    Ordinal = table.Column<short>(type: "smallint", nullable: false),
+                    StudyProgrammeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudyProgrammeSections", x => x.Id);
+                    table.CheckConstraint("CK_StudyProgrammeSections_Ordinal_Range", "[Ordinal] >= CAST(1 AS smallint) AND [Ordinal] <= CAST(32767 AS smallint)");
+                    table.ForeignKey(
+                        name: "FK_StudyProgrammeSections_StudyProgrammes_StudyProgrammeId",
+                        column: x => x.StudyProgrammeId,
+                        principalTable: "StudyProgrammes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Exams",
                 columns: table => new
                 {
@@ -91,6 +126,30 @@ namespace EFCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StudyProgrammeUser",
+                columns: table => new
+                {
+                    StudyProgrammesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UsersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudyProgrammeUser", x => new { x.StudyProgrammesId, x.UsersId });
+                    table.ForeignKey(
+                        name: "FK_StudyProgrammeUser_StudyProgrammes_StudyProgrammesId",
+                        column: x => x.StudyProgrammesId,
+                        principalTable: "StudyProgrammes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StudyProgrammeUser_Users_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Training",
                 columns: table => new
                 {
@@ -104,7 +163,8 @@ namespace EFCore.Migrations
                     AudioId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CensorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ExamId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    ExamId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    StudyProgrammeSectionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -129,6 +189,11 @@ namespace EFCore.Migrations
                         name: "FK_Training_Exams_ExamId",
                         column: x => x.ExamId,
                         principalTable: "Exams",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Training_StudyProgrammeSections_StudyProgrammeSectionId",
+                        column: x => x.StudyProgrammeSectionId,
+                        principalTable: "StudyProgrammeSections",
                         principalColumn: "Id");
                 });
 
@@ -287,6 +352,16 @@ namespace EFCore.Migrations
                 column: "TrainingId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_StudyProgrammeSections_StudyProgrammeId",
+                table: "StudyProgrammeSections",
+                column: "StudyProgrammeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudyProgrammeUser_UsersId",
+                table: "StudyProgrammeUser",
+                column: "UsersId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Testings_CensorId",
                 table: "Testings",
                 column: "CensorId");
@@ -331,6 +406,11 @@ namespace EFCore.Migrations
                 filter: "[ImageId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Training_StudyProgrammeSectionId",
+                table: "Training",
+                column: "StudyProgrammeSectionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserAnswers_AnswerId",
                 table: "UserAnswers",
                 column: "AnswerId");
@@ -369,6 +449,9 @@ namespace EFCore.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "StudyProgrammeUser");
+
+            migrationBuilder.DropTable(
                 name: "UserAnswers");
 
             migrationBuilder.DropTable(
@@ -390,7 +473,13 @@ namespace EFCore.Migrations
                 name: "Exams");
 
             migrationBuilder.DropTable(
+                name: "StudyProgrammeSections");
+
+            migrationBuilder.DropTable(
                 name: "Censors");
+
+            migrationBuilder.DropTable(
+                name: "StudyProgrammes");
 
             migrationBuilder.DropTable(
                 name: "Attachments");

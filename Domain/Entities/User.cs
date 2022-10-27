@@ -29,4 +29,10 @@ public class User
     public ICollection<Testing> Testings { get; set; } = null!;
 
     #endregion
+
+    #region StudyProgrammes
+
+    public ICollection<StudyProgramme> StudyProgrammes { get; set; } = null!;
+
+    #endregion
 }

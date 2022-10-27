@@ -12,10 +12,12 @@ public class AppDbContext : DbContext
     public DbSet<Censor> Censors { get; set; } = null!;
     public DbSet<Exam> Exams { get; set; } = null!;
     public DbSet<Question> Questions { get; set; } = null!;
+    public DbSet<StudyProgramme> StudyProgrammes { get; set; } = null!;
+    public DbSet<StudyProgrammeSection> StudyProgrammeSections { get; set; } = null!;
+    public DbSet<Testing> Testings { get; set; } = null!;
     public DbSet<Training> Training { get; set; } = null!;
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<UserAnswer> UserAnswers { get; set; } = null!;
-    public DbSet<Testing> Testings { get; set; } = null!;
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -27,6 +29,7 @@ public class AppDbContext : DbContext
 
         configurationBuilder.Properties<ExamStatus>().HaveConversion<string>();
         configurationBuilder.Properties<Gender>().HaveConversion<string>();
+        configurationBuilder.Properties<StudyProgrammeType>().HaveConversion<string>();
         configurationBuilder.Properties<TrainingLevel>().HaveConversion<string>();
         configurationBuilder.Properties<TrainingSession>().HaveConversion<string>();
         configurationBuilder.Properties<TrainingStatus>().HaveConversion<string>();
@@ -109,6 +112,27 @@ public class AppDbContext : DbContext
             question.HasOne(x => x.Training).WithMany(x => x.Questions).HasForeignKey(x => x.TrainingId);
         });
 
+        modelBuilder.Entity<StudyProgramme>(studyProgramme =>
+        {
+            studyProgramme.HasKey(x => x.Id);
+
+            studyProgramme.Property(x => x.Name).IsRequired().HasColumnType("nvarchar(200)");
+            studyProgramme.Property(x => x.Description).IsRequired().HasColumnType("nvarchar(2000)");
+            studyProgramme.Property(x => x.Type).IsRequired().HasColumnType("varchar(50)");
+        });
+
+        modelBuilder.Entity<StudyProgrammeSection>(studyProgrammeSection =>
+        {
+            studyProgrammeSection.HasKey(x => x.Id);
+
+            studyProgrammeSection.Property(x => x.Title).IsRequired().HasColumnType("nvarchar(200)");
+            studyProgrammeSection.Property(x => x.Ordinal).IsRequired().HasColumnType("smallint");
+            studyProgrammeSection.Property(x => x.StudyProgrammeId).IsRequired();
+
+            studyProgrammeSection.HasOne(x => x.StudyProgramme).WithMany(x => x.StudyProgrammeSections)
+                .HasForeignKey(x => x.StudyProgrammeId);
+        });
+
         modelBuilder.Entity<Testing>(testing =>
         {
             testing.HasKey(x => x.Id);
@@ -145,6 +169,7 @@ public class AppDbContext : DbContext
             training.Property(x => x.AudioId).IsRequired(false);
             training.Property(x => x.CensorId).IsRequired();
             training.Property(x => x.ExamId).IsRequired(false);
+            training.Property(x => x.StudyProgrammeSectionId).IsRequired(false);
 
             training.HasOne(x => x.Censor).WithMany(x => x.Trainings).HasForeignKey(x => x.CensorId);
             training.HasOne(x => x.Exam).WithMany(x => x.Trainings).HasForeignKey(x => x.ExamId)
@@ -153,7 +178,8 @@ public class AppDbContext : DbContext
                 .OnDelete(DeleteBehavior.NoAction);
             training.HasOne(x => x.Audio).WithOne(x => x.AudioTraining).HasForeignKey<Training>(x => x.AudioId)
                 .OnDelete(DeleteBehavior.NoAction);
-            ;
+            training.HasOne(x => x.StudyProgrammeSection).WithMany(x => x.Trainings)
+                .HasForeignKey(X => X.StudyProgrammeSectionId).OnDelete(DeleteBehavior.NoAction);
         });
 
         modelBuilder.Entity<User>(user =>

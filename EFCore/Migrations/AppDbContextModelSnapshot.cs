@@ -176,6 +176,54 @@ namespace EFCore.Migrations
                     b.HasCheckConstraint("CK_Questions_Ordinal_Range", "[Ordinal] >= CAST(1 AS smallint) AND [Ordinal] <= CAST(1000 AS smallint)");
                 });
 
+            modelBuilder.Entity("Domain.Entities.StudyProgramme", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StudyProgrammes");
+                });
+
+            modelBuilder.Entity("Domain.Entities.StudyProgrammeSection", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<short>("Ordinal")
+                        .HasColumnType("smallint");
+
+                    b.Property<Guid>("StudyProgrammeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudyProgrammeId");
+
+                    b.ToTable("StudyProgrammeSections");
+
+                    b.HasCheckConstraint("CK_StudyProgrammeSections_Ordinal_Range", "[Ordinal] >= CAST(1 AS smallint) AND [Ordinal] <= CAST(32767 AS smallint)");
+                });
+
             modelBuilder.Entity("Domain.Entities.Testing", b =>
                 {
                     b.Property<Guid>("Id")
@@ -253,6 +301,9 @@ namespace EFCore.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(20)");
 
+                    b.Property<Guid?>("StudyProgrammeSectionId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("TrainingSession")
                         .IsRequired()
                         .HasColumnType("varchar(20)");
@@ -274,6 +325,8 @@ namespace EFCore.Migrations
                     b.HasIndex("ImageId")
                         .IsUnique()
                         .HasFilter("[ImageId] IS NOT NULL");
+
+                    b.HasIndex("StudyProgrammeSectionId");
 
                     b.ToTable("Training");
                 });
@@ -367,6 +420,21 @@ namespace EFCore.Migrations
                     b.ToTable("UserAnswers");
                 });
 
+            modelBuilder.Entity("StudyProgrammeUser", b =>
+                {
+                    b.Property<Guid>("StudyProgrammesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("StudyProgrammesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("StudyProgrammeUser");
+                });
+
             modelBuilder.Entity("Domain.Entities.Answer", b =>
                 {
                     b.HasOne("Domain.Entities.Question", "Question")
@@ -409,6 +477,17 @@ namespace EFCore.Migrations
                         .IsRequired();
 
                     b.Navigation("Training");
+                });
+
+            modelBuilder.Entity("Domain.Entities.StudyProgrammeSection", b =>
+                {
+                    b.HasOne("Domain.Entities.StudyProgramme", "StudyProgramme")
+                        .WithMany("StudyProgrammeSections")
+                        .HasForeignKey("StudyProgrammeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("StudyProgramme");
                 });
 
             modelBuilder.Entity("Domain.Entities.Testing", b =>
@@ -472,6 +551,12 @@ namespace EFCore.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("Domain.Entities.StudyProgrammeSection", "StudyProgrammeSection")
+                        .WithMany("Trainings")
+                        .HasForeignKey("StudyProgrammeSectionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("Audio");
 
                     b.Navigation("Censor");
@@ -479,6 +564,8 @@ namespace EFCore.Migrations
                     b.Navigation("Exam");
 
                     b.Navigation("Image");
+
+                    b.Navigation("StudyProgrammeSection");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
@@ -527,6 +614,21 @@ namespace EFCore.Migrations
                     b.Navigation("Testing");
                 });
 
+            modelBuilder.Entity("StudyProgrammeUser", b =>
+                {
+                    b.HasOne("Domain.Entities.StudyProgramme", null)
+                        .WithMany()
+                        .HasForeignKey("StudyProgrammesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Domain.Entities.Answer", b =>
                 {
                     b.Navigation("UserAnswers");
@@ -571,6 +673,16 @@ namespace EFCore.Migrations
                     b.Navigation("Answers");
 
                     b.Navigation("UserAnswers");
+                });
+
+            modelBuilder.Entity("Domain.Entities.StudyProgramme", b =>
+                {
+                    b.Navigation("StudyProgrammeSections");
+                });
+
+            modelBuilder.Entity("Domain.Entities.StudyProgrammeSection", b =>
+                {
+                    b.Navigation("Trainings");
                 });
 
             modelBuilder.Entity("Domain.Entities.Testing", b =>
