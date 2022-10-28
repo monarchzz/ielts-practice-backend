@@ -1,10 +1,11 @@
-﻿using FluentValidation;
+﻿using Application.Authentication.Commands;
+using FluentValidation;
 
-namespace Application.Authentication.Commands;
+namespace Application.Users.Commands.UpdateUser;
 
-public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
+public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 {
-    public RegisterCommandValidator()
+    public UpdateUserCommandValidator()
     {
         RuleFor(x => x.Email).NotEmpty().EmailAddress();
         RuleFor(x => x.Password).NotEmpty().MinimumLength(6);

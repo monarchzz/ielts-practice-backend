@@ -8,7 +8,7 @@ public interface IUserRepository : IBaseRepository
 
     Task<User?> GetByIdAsync(Guid id);
 
-    Task<User?> GetByEmail(string email);
+    Task<User?> GetByEmailAsync(string email);
     
     Task<List<User>> GetAllAsync();
 

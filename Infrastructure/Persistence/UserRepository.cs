@@ -27,7 +27,7 @@ public class UserRepository : BaseRepository, IUserRepository
         return await _userQueryable.SingleOrDefaultAsync(user => user.Id == id);
     }
 
-    public async Task<User?> GetByEmail(string email)
+    public async Task<User?> GetByEmailAsync(string email)
     {
         return await _userQueryable.SingleOrDefaultAsync(user => user.Email == email);
     }

@@ -1,28 +1,28 @@
-﻿using Application.Authentication.Common;
-using Application.Common.Interfaces.Authentication;
+﻿using Application.Common.Interfaces.Authentication;
 using Application.Common.Interfaces.Persistence;
+using Application.Users.Common;
 using Domain.Common.Errors;
 using Domain.Entities;
 using ErrorOr;
+using MapsterMapper;
 using MediatR;
 
-namespace Application.Authentication.Commands;
+namespace Application.Users.Commands.CreateUser;
 
-public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
+public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ErrorOr<UserResult>>
 {
-    private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IPasswordHelper _passwordHelper;
     private readonly IUserRepository _userRepository;
+    private readonly IMapper _mapper;
 
-    public RegisterCommandHandler(IJwtTokenGenerator jwtTokenGenerator, IPasswordHelper passwordHelper,
-        IUserRepository userRepository)
+    public CreateUserCommandHandler(IPasswordHelper passwordHelper, IUserRepository userRepository, IMapper mapper)
     {
-        _jwtTokenGenerator = jwtTokenGenerator;
         _passwordHelper = passwordHelper;
         _userRepository = userRepository;
+        _mapper = mapper;
     }
 
-    public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command,
+    public async Task<ErrorOr<UserResult>> Handle(CreateUserCommand command,
         CancellationToken cancellationToken)
     {
         if (await _userRepository.GetByEmailAsync(command.Email) is not null)
@@ -38,20 +38,12 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
             Password = _passwordHelper.HashPassword(command.Password),
             Gender = command.Gender,
             DateOfBirth = command.DateOfBirth,
-            IsActive = true
+            IsActive = command.IsActive
         };
 
         await _userRepository.AddAsync(user);
         await _userRepository.SaveChangesAsync();
 
-        var token = _jwtTokenGenerator.GenerateToken(user);
-        var refreshToken = _jwtTokenGenerator.GenerateRefreshToken(user);
-
-        return new AuthenticationResult()
-        {
-            Token = token,
-            RefreshToken = refreshToken,
-            User = user
-        };
+        return _mapper.Map<UserResult>(user);
     }
 }
