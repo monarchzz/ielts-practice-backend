@@ -21,6 +21,7 @@ public static class DependencyInjection
         services.AddAuth(builderConfiguration);
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddSingleton<IPasswordHelper, PasswordHelper>();
+
         services.AddScoped<IUserRepository, UserRepository>();
 
         return services;

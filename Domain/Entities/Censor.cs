@@ -16,7 +16,11 @@ public class Censor
 
     public Gender Gender { get; set; }
 
-    public string? PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; } = null!;
+
+    public DateTime DateOfBirth { get; set; }
+
+    public bool IsActive { get; set; }
 
     #region Avatar
 

@@ -85,6 +85,9 @@ namespace EFCore.Migrations
                     b.Property<Guid?>("AvatarId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)");
@@ -97,6 +100,9 @@ namespace EFCore.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(10)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)");
@@ -106,6 +112,7 @@ namespace EFCore.Migrations
                         .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("varchar(15)");
 
                     b.HasKey("Id");
@@ -340,6 +347,9 @@ namespace EFCore.Migrations
                     b.Property<Guid?>("AvatarId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)");
@@ -351,6 +361,9 @@ namespace EFCore.Migrations
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("varchar(10)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -375,9 +388,11 @@ namespace EFCore.Migrations
                         new
                         {
                             Id = new Guid("c54a474e-ac00-4057-85b2-ed407135d528"),
+                            DateOfBirth = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@gmail.com",
                             FirstName = "Admin",
                             Gender = "Male",
+                            IsActive = true,
                             LastName = "Default",
                             Password = "$2a$11$2yetTvA.CA3opcE1Ixr1I.WBqBEZsrl0vI2MWPhAYT6tt0/rf5XWa"
                         });

@@ -49,7 +49,9 @@ namespace EFCore.Migrations
                     Email = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(1000)", nullable: false),
                     Gender = table.Column<string>(type: "varchar(10)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "varchar(15)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "varchar(15)", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     AvatarId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
@@ -72,6 +74,8 @@ namespace EFCore.Migrations
                     Email = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(1000)", nullable: false),
                     Gender = table.Column<string>(type: "varchar(10)", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     AvatarId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
@@ -320,8 +324,8 @@ namespace EFCore.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "AvatarId", "Email", "FirstName", "Gender", "LastName", "Password" },
-                values: new object[] { new Guid("c54a474e-ac00-4057-85b2-ed407135d528"), null, "admin@gmail.com", "Admin", "Male", "Default", "$2a$11$2yetTvA.CA3opcE1Ixr1I.WBqBEZsrl0vI2MWPhAYT6tt0/rf5XWa" });
+                columns: new[] { "Id", "AvatarId", "DateOfBirth", "Email", "FirstName", "Gender", "IsActive", "LastName", "Password" },
+                values: new object[] { new Guid("c54a474e-ac00-4057-85b2-ed407135d528"), null, new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", "Admin", "Male", true, "Default", "$2a$11$2yetTvA.CA3opcE1Ixr1I.WBqBEZsrl0vI2MWPhAYT6tt0/rf5XWa" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_QuestionId",

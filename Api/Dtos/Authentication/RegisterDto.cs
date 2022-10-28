@@ -13,4 +13,6 @@ public class RegisterDto
     public string Password { get; set; } = null!;
 
     public Gender Gender { get; set; }
+
+    public DateTime DateOfBirth { get; set; }
 };

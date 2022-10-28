@@ -25,7 +25,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
     public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command,
         CancellationToken cancellationToken)
     {
-        if (await _userRepository.GetUserByEmail(command.Email) is not null)
+        if (await _userRepository.GetByEmail(command.Email) is not null)
         {
             return Errors.User.DuplicateEmail;
         }
@@ -36,7 +36,9 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
             LastName = command.LastName,
             Email = command.Email,
             Password = _passwordHelper.HashPassword(command.Password),
-            Gender = command.Gender
+            Gender = command.Gender,
+            DateOfBirth = command.DateOfBirth,
+            IsActive = true
         };
 
         await _userRepository.AddAsync(user);

@@ -80,7 +80,9 @@ public class AppDbContext : DbContext
             censor.Property(x => x.Email).IsRequired().HasColumnType("nvarchar(50)");
             censor.Property(x => x.Password).IsRequired().HasColumnType("nvarchar(1000)");
             censor.Property(x => x.Gender).IsRequired().HasColumnType("varchar(10)");
-            censor.Property(x => x.PhoneNumber).IsRequired(false).HasColumnType("varchar(15)");
+            censor.Property(x => x.PhoneNumber).IsRequired().HasColumnType("varchar(15)");
+            censor.Property(x => x.DateOfBirth).IsRequired();
+            censor.Property(x => x.IsActive).IsRequired();
             censor.Property(x => x.AvatarId).IsRequired(false);
 
             censor.HasOne(x => x.Avatar).WithOne(x => x.Censor)
@@ -192,6 +194,8 @@ public class AppDbContext : DbContext
             user.Property(x => x.Email).IsRequired().HasColumnType("nvarchar(50)");
             user.Property(x => x.Password).IsRequired().HasColumnType("nvarchar(1000)");
             user.Property(x => x.Gender).IsRequired().HasColumnType("varchar(10)");
+            user.Property(x => x.DateOfBirth).IsRequired();
+            user.Property(x => x.IsActive).IsRequired();
             user.Property(x => x.AvatarId).IsRequired(false);
 
             user.HasOne(x => x.Avatar).WithOne(x => x.User).HasForeignKey<User>(x => x.AvatarId)

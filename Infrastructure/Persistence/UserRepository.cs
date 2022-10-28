@@ -17,18 +17,38 @@ public class UserRepository : BaseRepository, IUserRepository
         _userQueryable = _users.AsNoTracking();
     }
 
-    public async Task<User?> GetUserByIdAsync(Guid id)
+    public Task<bool> ExistsAsync(Guid id)
+    {
+        return _userQueryable.AnyAsync(x => x.Id == id);
+    }
+
+    public async Task<User?> GetByIdAsync(Guid id)
     {
         return await _userQueryable.SingleOrDefaultAsync(user => user.Id == id);
     }
 
-    public async Task<User?> GetUserByEmail(string email)
+    public async Task<User?> GetByEmail(string email)
     {
         return await _userQueryable.SingleOrDefaultAsync(user => user.Email == email);
+    }
+
+    public Task<List<User>> GetAllAsync()
+    {
+        return _userQueryable.ToListAsync();
     }
 
     public async Task AddAsync(User user)
     {
         await _users.AddAsync(user);
+    }
+
+    public void Update(User user)
+    {
+        _users.Update(user);
+    }
+
+    public void Remove(User user)
+    {
+        _users.Remove(user);
     }
 }

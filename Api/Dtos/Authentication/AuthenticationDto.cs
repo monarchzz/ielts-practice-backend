@@ -14,6 +14,10 @@ public class AuthenticationDto
 
     public Gender Gender { get; set; }
 
+    public DateTime DateOfBirth { get; set; }
+
+    public bool IsActive { get; set; }
+
     public string Token { get; set; } = null!;
 
     public string RefreshToken { get; set; } = null!;

@@ -16,6 +16,10 @@ public class User
 
     public Gender Gender { get; set; }
 
+    public DateTime DateOfBirth { get; set; }
+
+    public bool IsActive { get; set; }
+
     #region Avatar
 
     public Guid? AvatarId { get; set; }

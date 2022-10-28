@@ -24,7 +24,7 @@ public class RefreshTokenQueryHandler : IRequestHandler<RefreshTokenQuery, Error
         var userId = _jwtTokenGenerator.VerifyToken(query.RefreshToken);
         if (userId == null) return Errors.Authentication.TokenExpiredOrInvalid;
 
-        var user = await _userRepository.GetUserByIdAsync(userId.Value);
+        var user = await _userRepository.GetByIdAsync(userId.Value);
         if (user == null) return Errors.Authentication.InvalidCredentials;
 
         var token = _jwtTokenGenerator.GenerateToken(user);
