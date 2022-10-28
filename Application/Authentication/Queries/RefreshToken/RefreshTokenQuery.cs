@@ -4,4 +4,7 @@ using MediatR;
 
 namespace Application.Authentication.Queries.RefreshToken;
 
-public record RefreshTokenQuery(string RefreshToken) : IRequest<ErrorOr<AuthenticationResult>>;
+public class RefreshTokenQuery : IRequest<ErrorOr<AuthenticationResult>>
+{
+    public string RefreshToken { get; set; } = null!;
+}

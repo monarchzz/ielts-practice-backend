@@ -1,3 +1,6 @@
 ﻿namespace Api.Dtos.Authentication;
 
-public record RefreshTokenDto(string RefreshToken);
+public class RefreshTokenDto
+{
+    public string RefreshToken { get; set; } = null!;
+}

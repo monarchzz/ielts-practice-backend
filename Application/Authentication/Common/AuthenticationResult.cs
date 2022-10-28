@@ -2,4 +2,11 @@
 
 namespace Application.Authentication.Common;
 
-public record AuthenticationResult(User User, string Token, string RefreshToken);
+public class AuthenticationResult
+{
+    public User User { get; set; } = null!;
+
+    public string Token { get; set; } = null!;
+
+    public string RefreshToken { get; set; } = null!;
+};

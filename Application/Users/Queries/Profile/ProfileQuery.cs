@@ -4,4 +4,7 @@ using MediatR;
 
 namespace Application.Users.Queries.Profile;
 
-public record ProfileQuery(Guid Id) : IRequest<ErrorOr<UserResult>>;
+public class ProfileQuery : IRequest<ErrorOr<UserResult>>
+{
+    public Guid Id { get; set; }
+}

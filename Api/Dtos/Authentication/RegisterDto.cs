@@ -2,4 +2,15 @@
 
 namespace Api.Dtos.Authentication;
 
-public record RegisterDto(string FirstName, string LastName, string Email, string Password, Gender Gender);
+public class RegisterDto
+{
+    public string FirstName { get; set; } = null!;
+
+    public string LastName { get; set; } = null!;
+
+    public string Email { get; set; } = null!;
+
+    public string Password { get; set; } = null!;
+
+    public Gender Gender { get; set; }
+};

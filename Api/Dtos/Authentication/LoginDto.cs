@@ -1,3 +1,8 @@
 ﻿namespace Api.Dtos.Authentication;
 
-public record LoginDto(string Username, string Password);
+public class LoginDto
+{
+    public string Username { get; set; } = null!;
+
+    public string Password { get; set; } = null!;
+};

@@ -30,6 +30,11 @@ public class RefreshTokenQueryHandler : IRequestHandler<RefreshTokenQuery, Error
         var token = _jwtTokenGenerator.GenerateToken(user);
         var refreshToken = _jwtTokenGenerator.GenerateRefreshToken(user);
 
-        return new AuthenticationResult(user, token, refreshToken);
+        return new AuthenticationResult()
+        {
+            Token = token,
+            RefreshToken = refreshToken,
+            User = user
+        };
     }
 }

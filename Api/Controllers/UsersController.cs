@@ -23,7 +23,10 @@ public class UsersController : ApiController
     public async Task<IActionResult> GetProfile()
     {
         if (CurrentUserId == null) return Unauthorized();
-        var userResult = await _mediator.Send(new ProfileQuery(Guid.Parse(CurrentUserId)));
+        var userResult = await _mediator.Send(new ProfileQuery
+        {
+            Id = Guid.Parse(CurrentUserId)
+        });
 
         return userResult.Match(success => Ok(_mapper.Map<UserDto>(success)), Problem);
     }

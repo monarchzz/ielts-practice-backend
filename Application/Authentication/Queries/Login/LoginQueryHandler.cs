@@ -36,6 +36,11 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
         var token = _jwtTokenGenerator.GenerateToken(user);
         var refreshToken = _jwtTokenGenerator.GenerateRefreshToken(user);
 
-        return new AuthenticationResult(user, token, refreshToken);
+        return new AuthenticationResult()
+        {
+            Token = token,
+            RefreshToken = refreshToken,
+            User = user
+        };
     }
 }
