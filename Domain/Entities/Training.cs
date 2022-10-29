@@ -34,11 +34,11 @@ public class Training
 
     #endregion
 
-    #region Censor
+    #region Manager
 
-    public Guid CensorId { get; set; }
+    public Guid ManagerId { get; set; }
 
-    public Censor Censor { get; set; } = null!;
+    public Manager Manager { get; set; } = null!;
 
     #endregion
 

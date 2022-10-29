@@ -6,11 +6,11 @@ public interface IJwtTokenGenerator
 {
     string GenerateToken(User user);
 
-    string GenerateToken(Censor censor);
+    string GenerateToken(Manager manager);
 
     string GenerateRefreshToken(User user);
 
-    string GenerateRefreshToken(Censor censor);
+    string GenerateRefreshToken(Manager manager);
 
     Guid? VerifyToken(string refreshToken);
 }

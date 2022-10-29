@@ -21,11 +21,11 @@ public class Testing
 
     #endregion
 
-    #region Censor
+    #region Manager
 
-    public Guid? CensorId { get; set; }
+    public Guid? ManagerId { get; set; }
 
-    public Censor? Censor { get; set; }
+    public Manager? Manager { get; set; }
 
     #endregion
 

@@ -39,7 +39,7 @@ namespace EFCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Censors",
+                name: "Managers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -56,9 +56,9 @@ namespace EFCore.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Censors", x => x.Id);
+                    table.PrimaryKey("PK_Managers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Censors_Attachments_AvatarId",
+                        name: "FK_Managers_Attachments_AvatarId",
                         column: x => x.AvatarId,
                         principalTable: "Attachments",
                         principalColumn: "Id");
@@ -116,15 +116,15 @@ namespace EFCore.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(200)", nullable: false),
                     Status = table.Column<string>(type: "varchar(20)", nullable: false),
-                    CensorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ManagerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Exams", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Exams_Censors_CensorId",
-                        column: x => x.CensorId,
-                        principalTable: "Censors",
+                        name: "FK_Exams_Managers_ManagerId",
+                        column: x => x.ManagerId,
+                        principalTable: "Managers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -166,7 +166,7 @@ namespace EFCore.Migrations
                     ForExamOnly = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     AudioId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CensorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ManagerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ExamId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     StudyProgrammeSectionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
@@ -184,16 +184,16 @@ namespace EFCore.Migrations
                         principalTable: "Attachments",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Training_Censors_CensorId",
-                        column: x => x.CensorId,
-                        principalTable: "Censors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Training_Exams_ExamId",
                         column: x => x.ExamId,
                         principalTable: "Exams",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Training_Managers_ManagerId",
+                        column: x => x.ManagerId,
+                        principalTable: "Managers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Training_StudyProgrammeSections_StudyProgrammeSectionId",
                         column: x => x.StudyProgrammeSectionId,
@@ -233,7 +233,7 @@ namespace EFCore.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SpeakingScores = table.Column<double>(type: "float", nullable: true),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CensorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ManagerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ExamId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     TrainingId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
@@ -242,14 +242,14 @@ namespace EFCore.Migrations
                     table.PrimaryKey("PK_Testings", x => x.Id);
                     table.CheckConstraint("CK_Testings_SpeakingScores_Range", "[SpeakingScores] >= 0.0E0 AND [SpeakingScores] <= 10.0E0");
                     table.ForeignKey(
-                        name: "FK_Testings_Censors_CensorId",
-                        column: x => x.CensorId,
-                        principalTable: "Censors",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Testings_Exams_ExamId",
                         column: x => x.ExamId,
                         principalTable: "Exams",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Testings_Managers_ManagerId",
+                        column: x => x.ManagerId,
+                        principalTable: "Managers",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Testings_Training_TrainingId",
@@ -324,12 +324,22 @@ namespace EFCore.Migrations
             migrationBuilder.InsertData(
                 table: "Attachments",
                 columns: new[] { "Id", "ContentType", "FileName", "Length", "Url" },
+                values: new object[] { new Guid("6bac9ded-377c-4ff8-f60d-08dab9abd7a2"), "image/jpeg", "ku8nqdzb51k1b5mmnuon.jpg", 91755L, "http://res.cloudinary.com/monarchz/image/upload/v1667047732/ietls/images/ku8nqdzb51k1b5mmnuon-10c8a962-6a2d-4516-b243-3405e63f8023.jpg" });
+
+            migrationBuilder.InsertData(
+                table: "Attachments",
+                columns: new[] { "Id", "ContentType", "FileName", "Length", "Url" },
                 values: new object[] { new Guid("9111ce96-9da2-4cb8-90f7-08dab9773926"), "image/jpeg", "ku8nqdzb51k1b5mmnuon.jpg", 91755L, "http://res.cloudinary.com/monarchz/image/upload/v1667025386/ietls/images/ku8nqdzb51k1b5mmnuon-40a280f4-3a28-4f03-bf16-b6b90d4a2fb0.jpg" });
+
+            migrationBuilder.InsertData(
+                table: "Managers",
+                columns: new[] { "Id", "AvatarId", "DateOfBirth", "Email", "FirstName", "Gender", "IsActive", "LastName", "Password", "PhoneNumber", "Role" },
+                values: new object[] { new Guid("fcb33d6a-177e-4f41-9855-7975c7b77950"), new Guid("6bac9ded-377c-4ff8-f60d-08dab9abd7a2"), new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", "Admin", "Female", true, "Default", "123456", "0985938085", "Admin" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AvatarId", "DateOfBirth", "Email", "FirstName", "Gender", "IsActive", "LastName", "Password" },
-                values: new object[] { new Guid("c54a474e-ac00-4057-85b2-ed407135d528"), new Guid("9111ce96-9da2-4cb8-90f7-08dab9773926"), new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", "Admin", "Male", true, "Default", "$2a$11$2yetTvA.CA3opcE1Ixr1I.WBqBEZsrl0vI2MWPhAYT6tt0/rf5XWa" });
+                values: new object[] { new Guid("c54a474e-ac00-4057-85b2-ed407135d528"), new Guid("9111ce96-9da2-4cb8-90f7-08dab9773926"), new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "user@gmail.com", "User", "Male", true, "Default", "$2a$11$2yetTvA.CA3opcE1Ixr1I.WBqBEZsrl0vI2MWPhAYT6tt0/rf5XWa" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_QuestionId",
@@ -337,22 +347,22 @@ namespace EFCore.Migrations
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Censors_AvatarId",
-                table: "Censors",
+                name: "IX_Exams_ManagerId",
+                table: "Exams",
+                column: "ManagerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Managers_AvatarId",
+                table: "Managers",
                 column: "AvatarId",
                 unique: true,
                 filter: "[AvatarId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Censors_Email",
-                table: "Censors",
+                name: "IX_Managers_Email",
+                table: "Managers",
                 column: "Email",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Exams_CensorId",
-                table: "Exams",
-                column: "CensorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_TrainingId",
@@ -370,14 +380,14 @@ namespace EFCore.Migrations
                 column: "UsersId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Testings_CensorId",
-                table: "Testings",
-                column: "CensorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Testings_ExamId",
                 table: "Testings",
                 column: "ExamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Testings_ManagerId",
+                table: "Testings",
+                column: "ManagerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Testings_TrainingId",
@@ -397,11 +407,6 @@ namespace EFCore.Migrations
                 filter: "[AudioId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Training_CensorId",
-                table: "Training",
-                column: "CensorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Training_ExamId",
                 table: "Training",
                 column: "ExamId");
@@ -412,6 +417,11 @@ namespace EFCore.Migrations
                 column: "ImageId",
                 unique: true,
                 filter: "[ImageId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Training_ManagerId",
+                table: "Training",
+                column: "ManagerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Training_StudyProgrammeSectionId",
@@ -484,7 +494,7 @@ namespace EFCore.Migrations
                 name: "StudyProgrammeSections");
 
             migrationBuilder.DropTable(
-                name: "Censors");
+                name: "Managers");
 
             migrationBuilder.DropTable(
                 name: "StudyProgrammes");

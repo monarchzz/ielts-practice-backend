@@ -5,15 +5,15 @@ using Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
 
-namespace Application.Authentication.Queries.Login;
+namespace Application.Authentication.Queries.UserLogin;
 
-public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
+public class UserLoginQueryHandler : IRequestHandler<UserLoginQuery, ErrorOr<AuthenticationResult>>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IPasswordHelper _passwordHelper;
     private readonly IUserRepository _userRepository;
 
-    public LoginQueryHandler(IJwtTokenGenerator jwtTokenGenerator, IPasswordHelper passwordHelper,
+    public UserLoginQueryHandler(IJwtTokenGenerator jwtTokenGenerator, IPasswordHelper passwordHelper,
         IUserRepository userRepository)
     {
         _jwtTokenGenerator = jwtTokenGenerator;
@@ -21,7 +21,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
         _userRepository = userRepository;
     }
 
-    public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
+    public async Task<ErrorOr<AuthenticationResult>> Handle(UserLoginQuery query, CancellationToken cancellationToken)
     {
         if (await _userRepository.GetByEmailAsync(query.Username) is not { } user)
         {

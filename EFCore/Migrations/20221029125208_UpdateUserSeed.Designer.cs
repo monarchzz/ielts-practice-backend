@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221029091535_Initial")]
-    partial class Initial
+    [Migration("20221029125208_UpdateUserSeed")]
+    partial class UpdateUserSeed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -83,10 +83,42 @@ namespace EFCore.Migrations
                             FileName = "ku8nqdzb51k1b5mmnuon.jpg",
                             Length = 91755L,
                             Url = "http://res.cloudinary.com/monarchz/image/upload/v1667025386/ietls/images/ku8nqdzb51k1b5mmnuon-40a280f4-3a28-4f03-bf16-b6b90d4a2fb0.jpg"
+                        },
+                        new
+                        {
+                            Id = new Guid("6bac9ded-377c-4ff8-f60d-08dab9abd7a2"),
+                            ContentType = "image/jpeg",
+                            FileName = "ku8nqdzb51k1b5mmnuon.jpg",
+                            Length = 91755L,
+                            Url = "http://res.cloudinary.com/monarchz/image/upload/v1667047732/ietls/images/ku8nqdzb51k1b5mmnuon-10c8a962-6a2d-4516-b243-3405e63f8023.jpg"
                         });
                 });
 
-            modelBuilder.Entity("Domain.Entities.Censor", b =>
+            modelBuilder.Entity("Domain.Entities.Exam", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ManagerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("varchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ManagerId");
+
+                    b.ToTable("Exams");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Manager", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -138,31 +170,23 @@ namespace EFCore.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Censors");
-                });
+                    b.ToTable("Managers");
 
-            modelBuilder.Entity("Domain.Entities.Exam", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CensorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("varchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CensorId");
-
-                    b.ToTable("Exams");
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("fcb33d6a-177e-4f41-9855-7975c7b77950"),
+                            AvatarId = new Guid("6bac9ded-377c-4ff8-f60d-08dab9abd7a2"),
+                            DateOfBirth = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "admin@gmail.com",
+                            FirstName = "Admin",
+                            Gender = "Female",
+                            IsActive = true,
+                            LastName = "Default",
+                            Password = "$2a$11$2yetTvA.CA3opcE1Ixr1I.WBqBEZsrl0vI2MWPhAYT6tt0/rf5XWa",
+                            PhoneNumber = "0985938085",
+                            Role = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Question", b =>
@@ -251,9 +275,6 @@ namespace EFCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CensorId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -261,6 +282,9 @@ namespace EFCore.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<Guid?>("ExamId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ManagerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<double?>("SpeakingScores")
@@ -274,9 +298,9 @@ namespace EFCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CensorId");
-
                     b.HasIndex("ExamId");
+
+                    b.HasIndex("ManagerId");
 
                     b.HasIndex("TrainingId");
 
@@ -296,9 +320,6 @@ namespace EFCore.Migrations
                     b.Property<Guid?>("AudioId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CensorId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("ExamId")
                         .HasColumnType("uniqueidentifier");
 
@@ -313,6 +334,9 @@ namespace EFCore.Migrations
                     b.Property<string>("Level")
                         .IsRequired()
                         .HasColumnType("varchar(20)");
+
+                    b.Property<Guid>("ManagerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -339,13 +363,13 @@ namespace EFCore.Migrations
                         .IsUnique()
                         .HasFilter("[AudioId] IS NOT NULL");
 
-                    b.HasIndex("CensorId");
-
                     b.HasIndex("ExamId");
 
                     b.HasIndex("ImageId")
                         .IsUnique()
                         .HasFilter("[ImageId] IS NOT NULL");
+
+                    b.HasIndex("ManagerId");
 
                     b.HasIndex("StudyProgrammeSectionId");
 
@@ -404,8 +428,8 @@ namespace EFCore.Migrations
                             Id = new Guid("c54a474e-ac00-4057-85b2-ed407135d528"),
                             AvatarId = new Guid("9111ce96-9da2-4cb8-90f7-08dab9773926"),
                             DateOfBirth = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "admin@gmail.com",
-                            FirstName = "Admin",
+                            Email = "user@gmail.com",
+                            FirstName = "User",
                             Gender = "Male",
                             IsActive = true,
                             LastName = "Default",
@@ -476,25 +500,25 @@ namespace EFCore.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Censor", b =>
-                {
-                    b.HasOne("Domain.Entities.Attachment", "Avatar")
-                        .WithOne("Censor")
-                        .HasForeignKey("Domain.Entities.Censor", "AvatarId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Avatar");
-                });
-
             modelBuilder.Entity("Domain.Entities.Exam", b =>
                 {
-                    b.HasOne("Domain.Entities.Censor", "Censor")
+                    b.HasOne("Domain.Entities.Manager", "Manager")
                         .WithMany("Exams")
-                        .HasForeignKey("CensorId")
+                        .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Censor");
+                    b.Navigation("Manager");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Manager", b =>
+                {
+                    b.HasOne("Domain.Entities.Attachment", "Avatar")
+                        .WithOne("Manager")
+                        .HasForeignKey("Domain.Entities.Manager", "AvatarId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Avatar");
                 });
 
             modelBuilder.Entity("Domain.Entities.Question", b =>
@@ -521,14 +545,14 @@ namespace EFCore.Migrations
 
             modelBuilder.Entity("Domain.Entities.Testing", b =>
                 {
-                    b.HasOne("Domain.Entities.Censor", "Censor")
-                        .WithMany("Testings")
-                        .HasForeignKey("CensorId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.HasOne("Domain.Entities.Exam", "Exam")
                         .WithMany("Testings")
                         .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Domain.Entities.Manager", "Manager")
+                        .WithMany("Testings")
+                        .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Domain.Entities.Training", "Training")
@@ -542,9 +566,9 @@ namespace EFCore.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Censor");
-
                     b.Navigation("Exam");
+
+                    b.Navigation("Manager");
 
                     b.Navigation("Training");
 
@@ -558,12 +582,6 @@ namespace EFCore.Migrations
                         .HasForeignKey("Domain.Entities.Training", "AudioId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("Domain.Entities.Censor", "Censor")
-                        .WithMany("Trainings")
-                        .HasForeignKey("CensorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entities.Exam", "Exam")
                         .WithMany("Trainings")
                         .HasForeignKey("ExamId")
@@ -574,6 +592,12 @@ namespace EFCore.Migrations
                         .HasForeignKey("Domain.Entities.Training", "ImageId")
                         .OnDelete(DeleteBehavior.NoAction);
 
+                    b.HasOne("Domain.Entities.Manager", "Manager")
+                        .WithMany("Trainings")
+                        .HasForeignKey("ManagerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Entities.StudyProgrammeSection", "StudyProgrammeSection")
                         .WithMany("Trainings")
                         .HasForeignKey("StudyProgrammeSectionId")
@@ -581,11 +605,11 @@ namespace EFCore.Migrations
 
                     b.Navigation("Audio");
 
-                    b.Navigation("Censor");
-
                     b.Navigation("Exam");
 
                     b.Navigation("Image");
+
+                    b.Navigation("Manager");
 
                     b.Navigation("StudyProgrammeSection");
                 });
@@ -657,10 +681,10 @@ namespace EFCore.Migrations
                     b.Navigation("AudioTraining")
                         .IsRequired();
 
-                    b.Navigation("Censor")
+                    b.Navigation("ImageTraining")
                         .IsRequired();
 
-                    b.Navigation("ImageTraining")
+                    b.Navigation("Manager")
                         .IsRequired();
 
                     b.Navigation("User")
@@ -670,17 +694,17 @@ namespace EFCore.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Entities.Censor", b =>
+            modelBuilder.Entity("Domain.Entities.Exam", b =>
                 {
-                    b.Navigation("Exams");
-
                     b.Navigation("Testings");
 
                     b.Navigation("Trainings");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Exam", b =>
+            modelBuilder.Entity("Domain.Entities.Manager", b =>
                 {
+                    b.Navigation("Exams");
+
                     b.Navigation("Testings");
 
                     b.Navigation("Trainings");

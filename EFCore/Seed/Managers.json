@@ -1,0 +1,15 @@
+﻿[
+  {
+    "Id": "FCB33D6A-177E-4F41-9855-7975C7B77950",
+    "FirstName": "Admin",
+    "LastName": "Default",
+    "Email": "admin@gmail.com",
+    "Password": "$2a$11$2yetTvA.CA3opcE1Ixr1I.WBqBEZsrl0vI2MWPhAYT6tt0\/rf5XWa",
+    "Gender": "Female",
+    "PhoneNumber": "0985938085",
+    "DateOfBirth": "2000-01-01T00:00:00",
+    "IsActive": true,
+    "Role": "Admin",
+    "AvatarId": "6BAC9DED-377C-4FF8-F60D-08DAB9ABD7A2"
+  }
+]

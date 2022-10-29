@@ -45,15 +45,15 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         return new JwtSecurityTokenHandler().WriteToken(securityToken);
     }
 
-    public string GenerateToken(Censor censor)
+    public string GenerateToken(Manager manager)
     {
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.Sub, censor.Id.ToString()),
-            new(JwtRegisteredClaimNames.GivenName, censor.FirstName),
-            new(JwtRegisteredClaimNames.FamilyName, censor.LastName),
+            new(JwtRegisteredClaimNames.Sub, manager.Id.ToString()),
+            new(JwtRegisteredClaimNames.GivenName, manager.FirstName),
+            new(JwtRegisteredClaimNames.FamilyName, manager.LastName),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new(ClaimTypes.Role, nameof(censor.Role))
+            new(ClaimTypes.Role, nameof(manager.Role))
         };
 
         var signingCredentials =
@@ -92,13 +92,13 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         return new JwtSecurityTokenHandler().WriteToken(securityToken);
     }
 
-    public string GenerateRefreshToken(Censor censor)
+    public string GenerateRefreshToken(Manager manager)
     {
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.Sub, censor.Id.ToString()),
-            new(JwtRegisteredClaimNames.GivenName, censor.FirstName),
-            new(JwtRegisteredClaimNames.FamilyName, censor.LastName),
+            new(JwtRegisteredClaimNames.Sub, manager.Id.ToString()),
+            new(JwtRegisteredClaimNames.GivenName, manager.FirstName),
+            new(JwtRegisteredClaimNames.FamilyName, manager.LastName),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
@@ -136,7 +136,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
                 return id == null ? null : Guid.Parse(id.Value);
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return null;
         }

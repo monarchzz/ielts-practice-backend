@@ -1,11 +1,8 @@
-﻿using Application.Authentication.Common;
-using Domain.Enums;
-using MediatR;
-using ErrorOr;
+﻿using Domain.Enums;
 
-namespace Application.Authentication.Commands;
+namespace Api.Dtos.Authentication;
 
-public class RegisterCommand : IRequest<ErrorOr<AuthenticationResult>>
+public class UserRegisterDto
 {
     public string FirstName { get; set; } = null!;
 
@@ -18,4 +15,4 @@ public class RegisterCommand : IRequest<ErrorOr<AuthenticationResult>>
     public Gender Gender { get; set; }
 
     public DateTime DateOfBirth { get; set; }
-}
+};

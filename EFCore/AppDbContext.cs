@@ -9,7 +9,7 @@ public class AppDbContext : DbContext
 {
     public DbSet<Answer> Answers { get; set; } = null!;
     public DbSet<Attachment> Attachments { get; set; } = null!;
-    public DbSet<Censor> Censors { get; set; } = null!;
+    public DbSet<Manager> Managers { get; set; } = null!;
     public DbSet<Exam> Exams { get; set; } = null!;
     public DbSet<Question> Questions { get; set; } = null!;
     public DbSet<StudyProgramme> StudyProgrammes { get; set; } = null!;
@@ -70,36 +70,36 @@ public class AppDbContext : DbContext
             attachment.Property(x => x.ContentType).IsRequired().HasColumnType("varchar(100)");
         });
 
-        modelBuilder.Entity<Censor>(censor =>
-        {
-            censor.HasKey(x => x.Id);
-            censor.HasIndex(x => x.Email).IsUnique();
-
-            censor.Property(x => x.FirstName).IsRequired().HasColumnType("nvarchar(50)");
-            censor.Property(x => x.LastName).IsRequired().HasColumnType("nvarchar(50)");
-            censor.Property(x => x.Email).IsRequired().HasColumnType("nvarchar(50)");
-            censor.Property(x => x.Password).IsRequired().HasColumnType("nvarchar(1000)");
-            censor.Property(x => x.Gender).IsRequired().HasColumnType("varchar(10)");
-            censor.Property(x => x.PhoneNumber).IsRequired().HasColumnType("varchar(15)");
-            censor.Property(x => x.DateOfBirth).IsRequired();
-            censor.Property(x => x.IsActive).IsRequired();
-            censor.Property(x => x.Role).IsRequired().HasColumnType("varchar(10)");
-            censor.Property(x => x.AvatarId).IsRequired(false);
-
-            censor.HasOne(x => x.Avatar).WithOne(x => x.Censor)
-                .HasForeignKey<Censor>(x => x.AvatarId)
-                .OnDelete(DeleteBehavior.NoAction);
-        });
-
         modelBuilder.Entity<Exam>(exam =>
         {
             exam.HasKey(x => x.Id);
 
             exam.Property(x => x.Name).IsRequired().HasColumnType("nvarchar(200)");
             exam.Property(x => x.Status).IsRequired().HasColumnType("varchar(20)");
-            exam.Property(x => x.CensorId).IsRequired();
+            exam.Property(x => x.ManagerId).IsRequired();
 
-            exam.HasOne(x => x.Censor).WithMany(x => x.Exams).HasForeignKey(x => x.CensorId);
+            exam.HasOne(x => x.Manager).WithMany(x => x.Exams).HasForeignKey(x => x.ManagerId);
+        });
+
+        modelBuilder.Entity<Manager>(manager =>
+        {
+            manager.HasKey(x => x.Id);
+            manager.HasIndex(x => x.Email).IsUnique();
+
+            manager.Property(x => x.FirstName).IsRequired().HasColumnType("nvarchar(50)");
+            manager.Property(x => x.LastName).IsRequired().HasColumnType("nvarchar(50)");
+            manager.Property(x => x.Email).IsRequired().HasColumnType("nvarchar(50)");
+            manager.Property(x => x.Password).IsRequired().HasColumnType("nvarchar(1000)");
+            manager.Property(x => x.Gender).IsRequired().HasColumnType("varchar(10)");
+            manager.Property(x => x.PhoneNumber).IsRequired().HasColumnType("varchar(15)");
+            manager.Property(x => x.DateOfBirth).IsRequired();
+            manager.Property(x => x.IsActive).IsRequired();
+            manager.Property(x => x.Role).IsRequired().HasColumnType("varchar(10)");
+            manager.Property(x => x.AvatarId).IsRequired(false);
+
+            manager.HasOne(x => x.Avatar).WithOne(x => x.Manager)
+                .HasForeignKey<Manager>(x => x.AvatarId)
+                .OnDelete(DeleteBehavior.NoAction);
         });
 
         modelBuilder.Entity<Question>(question =>
@@ -144,13 +144,13 @@ public class AppDbContext : DbContext
             testing.Property(x => x.Date).IsRequired();
             testing.Property(x => x.SpeakingScores).IsRequired(false);
             testing.Property(x => x.UserId).IsRequired();
-            testing.Property(x => x.CensorId).IsRequired(false);
+            testing.Property(x => x.ManagerId).IsRequired(false);
             testing.Property(x => x.ExamId).IsRequired(false);
             testing.Property(x => x.TrainingId).IsRequired(false);
 
             testing.HasOne(x => x.User).WithMany(x => x.Testings).HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
-            testing.HasOne(x => x.Censor).WithMany(x => x.Testings).HasForeignKey(x => x.CensorId)
+            testing.HasOne(x => x.Manager).WithMany(x => x.Testings).HasForeignKey(x => x.ManagerId)
                 .OnDelete(DeleteBehavior.NoAction);
             testing.HasOne(x => x.Exam).WithMany(x => x.Testings).HasForeignKey(x => x.ExamId)
                 .OnDelete(DeleteBehavior.NoAction);
@@ -170,11 +170,11 @@ public class AppDbContext : DbContext
             training.Property(x => x.ForExamOnly).IsRequired().HasDefaultValue(false);
             training.Property(x => x.ImageId).IsRequired(false);
             training.Property(x => x.AudioId).IsRequired(false);
-            training.Property(x => x.CensorId).IsRequired();
+            training.Property(x => x.ManagerId).IsRequired();
             training.Property(x => x.ExamId).IsRequired(false);
             training.Property(x => x.StudyProgrammeSectionId).IsRequired(false);
 
-            training.HasOne(x => x.Censor).WithMany(x => x.Trainings).HasForeignKey(x => x.CensorId);
+            training.HasOne(x => x.Manager).WithMany(x => x.Trainings).HasForeignKey(x => x.ManagerId);
             training.HasOne(x => x.Exam).WithMany(x => x.Trainings).HasForeignKey(x => x.ExamId)
                 .OnDelete(DeleteBehavior.NoAction);
             training.HasOne(x => x.Image).WithOne(x => x.ImageTraining).HasForeignKey<Training>(x => x.ImageId)
@@ -228,6 +228,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Attachment>().HasData(SeedHelper.SeedData<Attachment>("Seed/Attachments.json"));
         modelBuilder.Entity<User>().HasData(SeedHelper.SeedData<User>("Seed/Users.json"));
+        modelBuilder.Entity<Manager>().HasData(SeedHelper.SeedData<Manager>("Seed/Managers.json"));
 
         #endregion
     }

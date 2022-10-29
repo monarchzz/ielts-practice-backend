@@ -27,7 +27,7 @@ public class AttachmentRepository : BaseRepository, IAttachmentRepository
     {
         return _attachmentsQueryable
             .Include(x => x.User)
-            .Include(x => x.Censor)
+            .Include(x => x.Manager)
             .Include(x => x.ImageTraining)
             .Include(x => x.AudioTraining)
             .FirstOrDefaultAsync(x => x.Id == id);

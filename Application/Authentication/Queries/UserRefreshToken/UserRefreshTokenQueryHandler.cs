@@ -2,23 +2,23 @@
 using Application.Common.Interfaces.Authentication;
 using Application.Common.Interfaces.Persistence;
 using Domain.Common.Errors;
-using MediatR;
 using ErrorOr;
+using MediatR;
 
-namespace Application.Authentication.Queries.RefreshToken;
+namespace Application.Authentication.Queries.UserRefreshToken;
 
-public class RefreshTokenQueryHandler : IRequestHandler<RefreshTokenQuery, ErrorOr<AuthenticationResult>>
+public class UserRefreshTokenQueryHandler : IRequestHandler<UserRefreshTokenQuery, ErrorOr<AuthenticationResult>>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IUserRepository _userRepository;
 
-    public RefreshTokenQueryHandler(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
+    public UserRefreshTokenQueryHandler(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
     {
         _jwtTokenGenerator = jwtTokenGenerator;
         _userRepository = userRepository;
     }
 
-    public async Task<ErrorOr<AuthenticationResult>> Handle(RefreshTokenQuery query,
+    public async Task<ErrorOr<AuthenticationResult>> Handle(UserRefreshTokenQuery query,
         CancellationToken cancellationToken)
     {
         var userId = _jwtTokenGenerator.VerifyToken(query.RefreshToken);

@@ -12,9 +12,9 @@ public class Exam
 
     #region Author
 
-    public Guid CensorId { get; set; }
+    public Guid ManagerId { get; set; }
 
-    public Censor Censor { get; set; } = null!;
+    public Manager Manager { get; set; } = null!;
 
     #endregion
 

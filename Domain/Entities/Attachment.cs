@@ -17,9 +17,9 @@ public class Attachment
 
     public string Url { get; set; } = null!;
 
-    #region Censor
+    #region Manager
 
-    public Censor Censor { get; set; } = null!;
+    public Manager Manager { get; set; } = null!;
 
     #endregion
 

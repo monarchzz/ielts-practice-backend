@@ -6,15 +6,15 @@ using Domain.Entities;
 using ErrorOr;
 using MediatR;
 
-namespace Application.Authentication.Commands;
+namespace Application.Authentication.Commands.UserRegister;
 
-public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
+public class UserRegisterCommandHandler : IRequestHandler<UserRegisterCommand, ErrorOr<AuthenticationResult>>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IPasswordHelper _passwordHelper;
     private readonly IUserRepository _userRepository;
 
-    public RegisterCommandHandler(IJwtTokenGenerator jwtTokenGenerator, IPasswordHelper passwordHelper,
+    public UserRegisterCommandHandler(IJwtTokenGenerator jwtTokenGenerator, IPasswordHelper passwordHelper,
         IUserRepository userRepository)
     {
         _jwtTokenGenerator = jwtTokenGenerator;
@@ -22,7 +22,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
         _userRepository = userRepository;
     }
 
-    public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command,
+    public async Task<ErrorOr<AuthenticationResult>> Handle(UserRegisterCommand command,
         CancellationToken cancellationToken)
     {
         if (await _userRepository.GetByEmailAsync(command.Email) is not null)

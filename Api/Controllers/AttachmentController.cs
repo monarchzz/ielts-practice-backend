@@ -47,7 +47,7 @@ public class AttachmentController : ApiController
             Problem);
     }
 
-    [HttpGet("[controller]/{id:guid}", Name = nameof(GetAttachmentById))]
+    [HttpGet("{id:guid}", Name = nameof(GetAttachmentById))]
     [ProducesResponseType(typeof(AttachmentDto), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAttachmentById(Guid id)
     {

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 [Route("[controller]")]
-[Authorize(Roles = $"{nameof(Role.User)},{nameof(Role.Admin)}, {nameof(Role.Censor)}")]
+[Authorize(Roles = $"{nameof(Role.User)},{nameof(Role.Admin)}, {nameof(Role.Manager)}")]
 public class SampleController : ApiController
 {
     [HttpGet]

@@ -1,9 +1,9 @@
 ﻿[
   {
     "Id": "C54A474E-AC00-4057-85B2-ED407135D528",
-    "FirstName": "Admin",
+    "FirstName": "User",
     "LastName": "Default",
-    "Email": "admin@gmail.com",
+    "Email": "user@gmail.com",
     "Gender": "Male",
     "DateOfBirth": "2000-01-01T00:00:00",
     "IsActive": true,

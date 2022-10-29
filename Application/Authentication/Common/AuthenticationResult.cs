@@ -4,7 +4,9 @@ namespace Application.Authentication.Common;
 
 public class AuthenticationResult
 {
-    public User User { get; set; } = null!;
+    public User? User { get; set; }
+
+    public Manager? Manager { get; set; }
 
     public string Token { get; set; } = null!;
 

@@ -2,9 +2,9 @@
 using ErrorOr;
 using MediatR;
 
-namespace Application.Authentication.Queries.Login;
+namespace Application.Authentication.Queries.UserLogin;
 
-public class LoginQuery : IRequest<ErrorOr<AuthenticationResult>>
+public class UserLoginQuery : IRequest<ErrorOr<AuthenticationResult>>
 {
     public string Username { get; set; } = null!;
 

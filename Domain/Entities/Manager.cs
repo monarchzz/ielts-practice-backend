@@ -2,7 +2,7 @@
 
 namespace Domain.Entities;
 
-public class Censor
+public class Manager
 {
     public Guid Id { get; set; }
 
