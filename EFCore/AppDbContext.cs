@@ -226,9 +226,9 @@ public class AppDbContext : DbContext
 
         #region Seed
 
-        modelBuilder.Entity<Attachment>().HasData(SeedHelper.SeedData<Attachment>("Seed/Attachments.json"));
-        modelBuilder.Entity<User>().HasData(SeedHelper.SeedData<User>("Seed/Users.json"));
-        modelBuilder.Entity<Manager>().HasData(SeedHelper.SeedData<Manager>("Seed/Managers.json"));
+        // modelBuilder.Entity<Attachment>().HasData(SeedHelper.SeedData<Attachment>("Seed/Attachments.json"));
+        // modelBuilder.Entity<User>().HasData(SeedHelper.SeedData<User>("Seed/Users.json"));
+        // modelBuilder.Entity<Manager>().HasData(SeedHelper.SeedData<Manager>("Seed/Managers.json"));
 
         #endregion
     }
