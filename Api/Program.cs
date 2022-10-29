@@ -45,16 +45,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
+    // if (app.Environment.IsDevelopment())
+    // {
+    //     app.UseSwagger();
+    //     app.UseSwaggerUI();
+    // }
+    //
+    // if (app.Environment.IsProduction())
+    // {
+    //     app.UseExceptionHandler("/error");
+    // }
 
-    if (app.Environment.IsProduction())
-    {
-        app.UseExceptionHandler("/error");
-    }
+    //user dev only
+    app.UseSwagger();
+    app.UseSwaggerUI();
 
     app.UseStaticFiles();
     app.UseHttpsRedirection();
