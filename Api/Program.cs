@@ -10,9 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services
         .AddPresentation()
-        .AddApplication()
+        .AddInfrastructure(builder.Configuration)
         .AddEFCore(builder.Configuration)
-        .AddInfrastructure(builder.Configuration);
+        .AddApplication();
 
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(c =>
