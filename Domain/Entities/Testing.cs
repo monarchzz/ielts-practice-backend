@@ -25,23 +25,23 @@ public class Testing
 
     public Guid? CensorId { get; set; }
 
-    public Censor Censor { get; set; } = null!;
+    public Censor? Censor { get; set; }
 
     #endregion
 
     #region Exam
 
     public Guid? ExamId { get; set; }
-    
-    public Exam Exam { get; set; } = null!;
+
+    public Exam? Exam { get; set; }
 
     #endregion
-    
+
     #region Training
 
     public Guid? TrainingId { get; set; }
-    
-    public Training Training { get; set; } = null!;
+
+    public Training? Training { get; set; }
 
     #endregion
 

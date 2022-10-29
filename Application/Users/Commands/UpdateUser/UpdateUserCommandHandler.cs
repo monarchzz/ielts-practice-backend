@@ -1,9 +1,6 @@
 ﻿using Application.Common.Interfaces.Authentication;
 using Application.Common.Interfaces.Persistence;
-using Application.Users.Commands.CreateUser;
-using Application.Users.Common;
 using Domain.Common.Errors;
-using Domain.Entities;
 using ErrorOr;
 using MapsterMapper;
 using MediatR;
@@ -28,11 +25,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Error
         var user = await _userRepository.GetByIdAsync(command.Id);
         if (user == null) return Errors.User.NotExists;
 
-        var userWithEmail = await _userRepository.GetByEmailAsync(command.Email);
-        if (userWithEmail != null && user.Id != userWithEmail.Id) return Errors.User.DuplicateEmail;
-
         _mapper.Map(command, user);
-        user.Password = _passwordHelper.HashPassword(command.Password);
 
         _userRepository.Update(user);
         await _userRepository.SaveChangesAsync();

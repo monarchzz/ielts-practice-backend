@@ -22,7 +22,7 @@ public class Training
 
     public Guid? AudioId { get; set; }
 
-    public Attachment Audio { get; set; } = null!;
+    public Attachment? Audio { get; set; }
 
     #endregion
 
@@ -30,7 +30,7 @@ public class Training
 
     public Guid? ImageId { get; set; }
 
-    public Attachment Image { get; set; } = null!;
+    public Attachment? Image { get; set; }
 
     #endregion
 
@@ -46,7 +46,7 @@ public class Training
 
     public Guid? ExamId { get; set; }
 
-    public Exam Exam { get; set; } = null!;
+    public Exam? Exam { get; set; }
 
     #endregion
 
@@ -54,7 +54,7 @@ public class Training
 
     public Guid? StudyProgrammeSectionId { get; set; }
 
-    public StudyProgrammeSection StudyProgrammeSection { get; set; } = null!;
+    public StudyProgrammeSection? StudyProgrammeSection { get; set; }
 
     #endregion
 

@@ -14,15 +14,14 @@ namespace EFCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(200)", nullable: false),
                     FileName = table.Column<string>(type: "nvarchar(200)", nullable: false),
-                    Length = table.Column<int>(type: "int", nullable: false),
-                    ContentType = table.Column<string>(type: "varchar(100)", nullable: false)
+                    Length = table.Column<long>(type: "bigint", nullable: false),
+                    ContentType = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(1000)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Attachments", x => x.Id);
-                    table.CheckConstraint("CK_Attachments_Length_Range", "[Length] >= 0 AND [Length] <= 52428800");
                 });
 
             migrationBuilder.CreateTable(
@@ -323,9 +322,14 @@ namespace EFCore.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Attachments",
+                columns: new[] { "Id", "ContentType", "FileName", "Length", "Url" },
+                values: new object[] { new Guid("9111ce96-9da2-4cb8-90f7-08dab9773926"), "image/jpeg", "ku8nqdzb51k1b5mmnuon.jpg", 91755L, "http://res.cloudinary.com/monarchz/image/upload/v1667025386/ietls/images/ku8nqdzb51k1b5mmnuon-40a280f4-3a28-4f03-bf16-b6b90d4a2fb0.jpg" });
+
+            migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AvatarId", "DateOfBirth", "Email", "FirstName", "Gender", "IsActive", "LastName", "Password" },
-                values: new object[] { new Guid("c54a474e-ac00-4057-85b2-ed407135d528"), null, new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", "Admin", "Male", true, "Default", "$2a$11$2yetTvA.CA3opcE1Ixr1I.WBqBEZsrl0vI2MWPhAYT6tt0/rf5XWa" });
+                values: new object[] { new Guid("c54a474e-ac00-4057-85b2-ed407135d528"), new Guid("9111ce96-9da2-4cb8-90f7-08dab9773926"), new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", "Admin", "Male", true, "Default", "$2a$11$2yetTvA.CA3opcE1Ixr1I.WBqBEZsrl0vI2MWPhAYT6tt0/rf5XWa" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_QuestionId",

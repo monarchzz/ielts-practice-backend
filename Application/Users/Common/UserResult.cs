@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Application.Attachments.Common;
+using Domain.Enums;
 
 namespace Application.Users.Common;
 
@@ -17,4 +18,6 @@ public class UserResult
     public DateTime DateOfBirth { get; set; }
 
     public bool IsActive { get; set; }
+
+    public AttachmentResult Avatar { get; set; } = null!;
 }

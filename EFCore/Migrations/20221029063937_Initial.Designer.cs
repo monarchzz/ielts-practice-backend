@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221028151823_Initial")]
+    [Migration("20221029063937_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,18 +64,26 @@ namespace EFCore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("Length")
-                        .HasColumnType("int");
+                    b.Property<long>("Length")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Url")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(1000)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Attachments");
 
-                    b.HasCheckConstraint("CK_Attachments_Length_Range", "[Length] >= 0 AND [Length] <= 52428800");
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("9111ce96-9da2-4cb8-90f7-08dab9773926"),
+                            ContentType = "image/jpeg",
+                            FileName = "ku8nqdzb51k1b5mmnuon.jpg",
+                            Length = 91755L,
+                            Url = "http://res.cloudinary.com/monarchz/image/upload/v1667025386/ietls/images/ku8nqdzb51k1b5mmnuon-40a280f4-3a28-4f03-bf16-b6b90d4a2fb0.jpg"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Censor", b =>
@@ -390,6 +398,7 @@ namespace EFCore.Migrations
                         new
                         {
                             Id = new Guid("c54a474e-ac00-4057-85b2-ed407135d528"),
+                            AvatarId = new Guid("9111ce96-9da2-4cb8-90f7-08dab9773926"),
                             DateOfBirth = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@gmail.com",
                             FirstName = "Admin",

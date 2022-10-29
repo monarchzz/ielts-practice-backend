@@ -1,4 +1,5 @@
-﻿using Application.Common.Interfaces.Persistence;
+﻿using System.Linq.Expressions;
+using Application.Common.Interfaces.Persistence;
 using Domain.Entities;
 using EFCore;
 using Microsoft.EntityFrameworkCore;
@@ -17,19 +18,19 @@ public class UserRepository : BaseRepository, IUserRepository
         _userQueryable = _users.AsNoTracking();
     }
 
-    public Task<bool> ExistsAsync(Guid id)
+    public Task<bool> ExistsAsync(Expression<Func<User, bool>> predicate)
     {
-        return _userQueryable.AnyAsync(x => x.Id == id);
+        return _userQueryable.AnyAsync(predicate);
     }
 
-    public async Task<User?> GetByIdAsync(Guid id)
+    public Task<User?> GetByIdAsync(Guid id)
     {
-        return await _userQueryable.SingleOrDefaultAsync(user => user.Id == id);
+        return _userQueryable.Include(x => x.Avatar).SingleOrDefaultAsync(user => user.Id == id);
     }
 
     public async Task<User?> GetByEmailAsync(string email)
     {
-        return await _userQueryable.SingleOrDefaultAsync(user => user.Email == email);
+        return await _userQueryable.Include(x => x.Avatar).SingleOrDefaultAsync(user => user.Email == email);
     }
 
     public Task<List<User>> GetAllAsync()

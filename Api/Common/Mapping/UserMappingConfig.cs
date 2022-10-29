@@ -8,6 +8,7 @@ public class UserMappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<UserResult, UserDto>();
+        config.NewConfig<UserResult, UserDto>()
+            .Map(dest => dest.Avatar, src => src.Avatar);
     }
 }

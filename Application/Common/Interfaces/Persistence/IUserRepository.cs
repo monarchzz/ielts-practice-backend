@@ -1,15 +1,16 @@
-﻿using Domain.Entities;
+﻿using System.Linq.Expressions;
+using Domain.Entities;
 
 namespace Application.Common.Interfaces.Persistence;
 
 public interface IUserRepository : IBaseRepository
 {
-    Task<bool> ExistsAsync(Guid id);
+    Task<bool> ExistsAsync(Expression<Func<User, bool>> predicate);
 
     Task<User?> GetByIdAsync(Guid id);
 
     Task<User?> GetByEmailAsync(string email);
-    
+
     Task<List<User>> GetAllAsync();
 
     Task AddAsync(User user);

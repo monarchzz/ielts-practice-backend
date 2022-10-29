@@ -10,7 +10,7 @@ public class UserAnswer
 
     public Guid? AudioRecordingId { get; set; }
 
-    public Attachment AudioRecording { get; set; } = null!;
+    public Attachment? AudioRecording { get; set; }
 
     #endregion
 
@@ -26,7 +26,7 @@ public class UserAnswer
 
     public Guid? AnswerId { get; set; }
 
-    public Answer Answer { get; set; } = null!;
+    public Answer? Answer { get; set; }
 
     #endregion
 

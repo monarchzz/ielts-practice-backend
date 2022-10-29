@@ -38,7 +38,8 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Error
             Password = _passwordHelper.HashPassword(command.Password),
             Gender = command.Gender,
             DateOfBirth = command.DateOfBirth,
-            IsActive = command.IsActive
+            IsActive = command.IsActive,
+            AvatarId = command.AvatarId,
         };
 
         await _userRepository.AddAsync(user);

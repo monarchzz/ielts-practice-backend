@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Api.Dtos.Attachment;
+using Domain.Enums;
 
 namespace Api.Dtos.Users;
 
@@ -17,4 +18,6 @@ public class UserDto
     public DateTime DateOfBirth { get; set; }
 
     public bool IsActive { get; set; }
+
+    public AttachmentDto Avatar { get; set; } = null!;
 };

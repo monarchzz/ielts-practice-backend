@@ -24,7 +24,7 @@ public class User
 
     public Guid? AvatarId { get; set; }
 
-    public Attachment Avatar { get; set; } = null!;
+    public Attachment? Avatar { get; set; }
 
     #endregion
 

@@ -63,9 +63,8 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Attachment>(attachment =>
         {
             attachment.HasKey(x => x.Id);
-            attachment.Property(x => x.Name).IsRequired().HasColumnType("nvarchar(200)");
             attachment.Property(x => x.FileName).IsRequired().HasColumnType("nvarchar(200)");
-            // attachment.Property(x => x.Uuid).IsRequired();
+            attachment.Property(x => x.Url).IsRequired().HasColumnType("nvarchar(1000)");
             attachment.Property(x => x.Length).IsRequired();
             attachment.Property(x => x.ContentType).IsRequired().HasColumnType("varchar(100)");
         });
@@ -225,6 +224,7 @@ public class AppDbContext : DbContext
 
         #region Seed
 
+        modelBuilder.Entity<Attachment>().HasData(SeedHelper.SeedData<Attachment>("Seed/Attachments.json"));
         modelBuilder.Entity<User>().HasData(SeedHelper.SeedData<User>("Seed/Users.json"));
 
         #endregion

@@ -17,4 +17,6 @@ public class CreateUserDto
     public DateTime DateOfBirth { get; set; }
 
     public bool IsActive { get; set; }
+    
+    public Guid? AvatarId { get; set; }
 }

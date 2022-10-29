@@ -7,6 +7,7 @@
     "Gender": "Male",
     "DateOfBirth": "2000-01-01T00:00:00",
     "IsActive": true,
+    "AvatarId": "9111ce96-9da2-4cb8-90f7-08dab9773926",
     "Password": "$2a$11$2yetTvA.CA3opcE1Ixr1I.WBqBEZsrl0vI2MWPhAYT6tt0\/rf5XWa"
   }
 ]

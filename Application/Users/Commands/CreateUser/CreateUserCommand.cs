@@ -20,4 +20,6 @@ public class CreateUserCommand : IRequest<ErrorOr<UserResult>>
     public DateTime DateOfBirth { get; set; }
 
     public bool IsActive { get; set; }
+
+    public Guid? AvatarId { get; set; }
 }

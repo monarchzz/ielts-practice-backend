@@ -21,8 +21,10 @@ public static class DependencyInjection
         services.AddAuth(builderConfiguration);
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddSingleton<IPasswordHelper, PasswordHelper>();
+        services.AddSingleton<IAttachmentProvider, AttachmentProvider>();
 
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IAttachmentRepository, AttachmentRepository>();
 
         return services;
     }
