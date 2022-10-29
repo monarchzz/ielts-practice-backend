@@ -20,7 +20,7 @@ public class SeedHelper
 
             return result ?? new List<TEntity>();
         }
-        catch (Exception _)
+        catch (Exception)
         {
             return new List<TEntity>();
         }
