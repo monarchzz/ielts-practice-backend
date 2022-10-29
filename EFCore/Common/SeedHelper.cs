@@ -10,8 +10,7 @@ public class SeedHelper
         Console.WriteLine(currentDirectory);
 
         var projectPath = currentDirectory.Replace(@"\Api", "");
-        var fullPath = Path.Combine(projectPath, "EFCore",
-            fileName.TrimStart('~').Replace('/', Path.DirectorySeparatorChar));
+        var fullPath = Path.Combine(projectPath, fileName.TrimStart('~').Replace('/', Path.DirectorySeparatorChar));
 
         using var reader = new StreamReader(fullPath);
         var json = reader.ReadToEnd();
