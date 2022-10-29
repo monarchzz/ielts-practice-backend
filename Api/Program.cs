@@ -4,6 +4,8 @@ using EFCore;
 using Infrastructure;
 using Microsoft.OpenApi.Models;
 
+const string corsPolicy = "CorsPolicy";
+
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services
@@ -41,6 +43,10 @@ var builder = WebApplication.CreateBuilder(args);
             }
         });
     });
+
+    builder.Services.AddCors(p =>
+        p.AddPolicy(corsPolicy,
+            policyBuilder => { policyBuilder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader(); }));
 }
 
 var app = builder.Build();
@@ -59,6 +65,8 @@ var app = builder.Build();
     //user dev only
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    app.UseCors(corsPolicy);
 
     app.UseStaticFiles();
     app.UseHttpsRedirection();
