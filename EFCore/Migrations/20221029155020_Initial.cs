@@ -334,7 +334,7 @@ namespace EFCore.Migrations
             migrationBuilder.InsertData(
                 table: "Managers",
                 columns: new[] { "Id", "AvatarId", "DateOfBirth", "Email", "FirstName", "Gender", "IsActive", "LastName", "Password", "PhoneNumber", "Role" },
-                values: new object[] { new Guid("fcb33d6a-177e-4f41-9855-7975c7b77950"), new Guid("6bac9ded-377c-4ff8-f60d-08dab9abd7a2"), new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", "Admin", "Female", true, "Default", "123456", "0985938085", "Admin" });
+                values: new object[] { new Guid("fcb33d6a-177e-4f41-9855-7975c7b77950"), new Guid("6bac9ded-377c-4ff8-f60d-08dab9abd7a2"), new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", "Admin", "Female", true, "Default", "$2a$11$2yetTvA.CA3opcE1Ixr1I.WBqBEZsrl0vI2MWPhAYT6tt0/rf5XWa", "0985938085", "Admin" });
 
             migrationBuilder.InsertData(
                 table: "Users",
