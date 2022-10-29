@@ -3,13 +3,16 @@ using Application.Users.Commands.CreateUser;
 using Application.Users.Commands.UpdateUser;
 using Application.Users.Queries.GetUser;
 using Application.Users.Queries.Profile;
+using Domain.Enums;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
 [Route("[controller]")]
+[Authorize(Roles = nameof(Role.User))]
 public class UsersController : ApiController
 {
     private readonly IMediator _mediator;

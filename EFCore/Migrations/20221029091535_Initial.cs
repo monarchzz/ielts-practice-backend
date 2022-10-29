@@ -51,6 +51,7 @@ namespace EFCore.Migrations
                     PhoneNumber = table.Column<string>(type: "varchar(15)", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    Role = table.Column<string>(type: "varchar(10)", nullable: false),
                     AvatarId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
@@ -301,8 +302,7 @@ namespace EFCore.Migrations
                         name: "FK_UserAnswers_Answers_AnswerId",
                         column: x => x.AnswerId,
                         principalTable: "Answers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_UserAnswers_Attachments_AudioRecordingId",
                         column: x => x.AudioRecordingId,

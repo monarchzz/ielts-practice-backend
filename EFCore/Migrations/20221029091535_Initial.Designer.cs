@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221029063937_Initial")]
+    [Migration("20221029091535_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -124,6 +124,10 @@ namespace EFCore.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("varchar(15)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("varchar(10)");
 
                     b.HasKey("Id");
 
@@ -477,8 +481,7 @@ namespace EFCore.Migrations
                     b.HasOne("Domain.Entities.Attachment", "Avatar")
                         .WithOne("Censor")
                         .HasForeignKey("Domain.Entities.Censor", "AvatarId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Avatar");
                 });
@@ -521,20 +524,17 @@ namespace EFCore.Migrations
                     b.HasOne("Domain.Entities.Censor", "Censor")
                         .WithMany("Testings")
                         .HasForeignKey("CensorId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Domain.Entities.Exam", "Exam")
                         .WithMany("Testings")
                         .HasForeignKey("ExamId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Domain.Entities.Training", "Training")
                         .WithMany("Testings")
                         .HasForeignKey("TrainingId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Domain.Entities.User", "User")
                         .WithMany("Testings")
@@ -556,8 +556,7 @@ namespace EFCore.Migrations
                     b.HasOne("Domain.Entities.Attachment", "Audio")
                         .WithOne("AudioTraining")
                         .HasForeignKey("Domain.Entities.Training", "AudioId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Domain.Entities.Censor", "Censor")
                         .WithMany("Trainings")
@@ -568,20 +567,17 @@ namespace EFCore.Migrations
                     b.HasOne("Domain.Entities.Exam", "Exam")
                         .WithMany("Trainings")
                         .HasForeignKey("ExamId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Domain.Entities.Attachment", "Image")
                         .WithOne("ImageTraining")
                         .HasForeignKey("Domain.Entities.Training", "ImageId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Domain.Entities.StudyProgrammeSection", "StudyProgrammeSection")
                         .WithMany("Trainings")
                         .HasForeignKey("StudyProgrammeSectionId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Audio");
 
@@ -599,8 +595,7 @@ namespace EFCore.Migrations
                     b.HasOne("Domain.Entities.Attachment", "Avatar")
                         .WithOne("User")
                         .HasForeignKey("Domain.Entities.User", "AvatarId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Avatar");
                 });
@@ -609,15 +604,12 @@ namespace EFCore.Migrations
                 {
                     b.HasOne("Domain.Entities.Answer", "Answer")
                         .WithMany("UserAnswers")
-                        .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AnswerId");
 
                     b.HasOne("Domain.Entities.Attachment", "AudioRecording")
                         .WithOne("UserAnswer")
                         .HasForeignKey("Domain.Entities.UserAnswer", "AudioRecordingId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Domain.Entities.Question", "Question")
                         .WithMany("UserAnswers")

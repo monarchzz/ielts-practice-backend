@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
 [Route("[controller]")]
+[Authorize(Roles = $"{nameof(Role.User)},{nameof(Role.Admin)}, {nameof(Role.Censor)}")]
 public class SampleController : ApiController
 {
     [HttpGet]

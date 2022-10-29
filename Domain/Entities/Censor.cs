@@ -22,6 +22,8 @@ public class Censor
 
     public bool IsActive { get; set; }
 
+    public Role Role { get; set; }
+
     #region Avatar
 
     public Guid? AvatarId { get; set; }

@@ -34,6 +34,7 @@ public class AppDbContext : DbContext
         configurationBuilder.Properties<TrainingSession>().HaveConversion<string>();
         configurationBuilder.Properties<TrainingStatus>().HaveConversion<string>();
         configurationBuilder.Properties<TrainingType>().HaveConversion<string>();
+        configurationBuilder.Properties<Role>().HaveConversion<string>();
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -82,6 +83,7 @@ public class AppDbContext : DbContext
             censor.Property(x => x.PhoneNumber).IsRequired().HasColumnType("varchar(15)");
             censor.Property(x => x.DateOfBirth).IsRequired();
             censor.Property(x => x.IsActive).IsRequired();
+            censor.Property(x => x.Role).IsRequired().HasColumnType("varchar(10)");
             censor.Property(x => x.AvatarId).IsRequired(false);
 
             censor.HasOne(x => x.Avatar).WithOne(x => x.Censor)

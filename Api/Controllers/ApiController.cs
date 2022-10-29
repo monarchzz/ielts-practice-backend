@@ -1,4 +1,5 @@
-﻿using Api.Common.Http;
+﻿using System.Security.Claims;
+using Api.Common.Http;
 using ErrorOr;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,8 @@ namespace Api.Controllers;
 [Produces("application/json")]
 public class ApiController : ControllerBase
 {
-    protected string? CurrentUserId => HttpContext.User.Claims.FirstOrDefault()?.Value;
+    protected string? CurrentUserId =>
+        HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
     protected IActionResult Problem(List<Error> errors)
     {
