@@ -14,7 +14,9 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddMediatR(typeof(DependencyInjection).Assembly);
+        services.AddOptions();
+
+        services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         services.AddMappings();
