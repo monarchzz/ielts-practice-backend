@@ -1,13 +1,23 @@
 ﻿[
   {
+    "Id": "B6E82736-F3BC-41B0-586C-08DABCF27CFE",
+    "FirstName": "Hieu",
+    "LastName": "Nguyen",
+    "Email": "hieunt@gmail.com",
+    "Password": "$2a$11$afcgukPItq13XuA2W\/LFvObQxeojtyA2w6VZs9nRU3I0cHSMDkPa2",
+    "Gender": "Male",
+    "DateOfBirth": "2000-02-20T00:00:00",
+    "IsActive": true,
+    "AvatarId": "31902F79-115E-4A27-F01A-08DABCF288F9"
+  },
+  {
     "Id": "C54A474E-AC00-4057-85B2-ED407135D528",
     "FirstName": "User",
     "LastName": "Default",
     "Email": "user@gmail.com",
+    "Password": "$2a$11$2yetTvA.CA3opcE1Ixr1I.WBqBEZsrl0vI2MWPhAYT6tt0\/rf5XWa",
     "Gender": "Male",
     "DateOfBirth": "2000-01-01T00:00:00",
-    "IsActive": true,
-    "AvatarId": "9111ce96-9da2-4cb8-90f7-08dab9773926",
-    "Password": "$2a$11$2yetTvA.CA3opcE1Ixr1I.WBqBEZsrl0vI2MWPhAYT6tt0\/rf5XWa"
+    "IsActive": true
   }
 ]
