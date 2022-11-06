@@ -11,5 +11,8 @@ public static partial class Errors
 
         public static Error NotExists =>
             Error.NotFound(code: "User.NotExists", description: "User does not exist.");
+
+        public static Error CurrentPasswordIsIncorrect =>
+            Error.Validation(code: "User.CurrentPasswordIsIncorrect", description: "Current password is incorrect.");
     }
 }

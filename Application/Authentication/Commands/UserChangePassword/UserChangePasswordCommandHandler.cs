@@ -24,6 +24,11 @@ public class UserChangePasswordHandler : IRequestHandler<UserChangePasswordComma
         var user = await _userRepository.GetByIdAsync(command.Id);
         if (user == null) return Errors.User.NotExists;
 
+        if (!_passwordHelper.VerifyHashedPassword(user.Password, command.CurrentPassword))
+        {
+            return Errors.User.CurrentPasswordIsIncorrect;
+        }
+
         user.Password = _passwordHelper.HashPassword(command.NewPassword);
 
         _userRepository.Update(user);

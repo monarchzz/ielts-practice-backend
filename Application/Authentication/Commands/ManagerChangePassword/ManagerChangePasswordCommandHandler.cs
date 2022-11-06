@@ -22,12 +22,17 @@ public class ManagerChangePasswordCommandHandler : IRequestHandler<ManagerChange
     public async Task<ErrorOr<Updated>> Handle(ManagerChangePasswordCommand command,
         CancellationToken cancellationToken)
     {
-        var user = await _managerRepository.GetByIdAsync(command.Id);
-        if (user == null) return Errors.User.NotExists;
+        var manager = await _managerRepository.GetByIdAsync(command.Id);
 
-        user.Password = _passwordHelper.HashPassword(command.NewPassword);
+        if (manager == null) return Errors.User.NotExists;
+        if (!_passwordHelper.VerifyHashedPassword(manager.Password, command.CurrentPassword))
+        {
+            return Errors.User.CurrentPasswordIsIncorrect;
+        }
 
-        _managerRepository.Update(user);
+        manager.Password = _passwordHelper.HashPassword(command.NewPassword);
+
+        _managerRepository.Update(manager);
         await _managerRepository.SaveChangesAsync();
 
         return Result.Updated;
