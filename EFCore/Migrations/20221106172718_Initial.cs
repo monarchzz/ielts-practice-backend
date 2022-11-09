@@ -324,12 +324,17 @@ namespace EFCore.Migrations
             migrationBuilder.InsertData(
                 table: "Attachments",
                 columns: new[] { "Id", "ContentType", "FileName", "Length", "Url" },
-                values: new object[] { new Guid("6bac9ded-377c-4ff8-f60d-08dab9abd7a2"), "image/jpeg", "ku8nqdzb51k1b5mmnuon.jpg", 91755L, "http://res.cloudinary.com/monarchz/image/upload/v1667047732/ietls/images/ku8nqdzb51k1b5mmnuon-10c8a962-6a2d-4516-b243-3405e63f8023.jpg" });
+                values: new object[,]
+                {
+                    { new Guid("31902f79-115e-4a27-f01a-08dabcf288f9"), "application/octet-stream", "image_picker8481115442505803273.jpg", 91755L, "http://res.cloudinary.com/monarchz/image/upload/v1667410898/ietls/images/image_picker8481115442505803273-57a39641-3df6-4030-936e-189dcb736334.jpg" },
+                    { new Guid("6bac9ded-377c-4ff8-f60d-08dab9abd7a2"), "image/jpeg", "ku8nqdzb51k1b5mmnuon.jpg", 91755L, "http://res.cloudinary.com/monarchz/image/upload/v1667047732/ietls/images/ku8nqdzb51k1b5mmnuon-10c8a962-6a2d-4516-b243-3405e63f8023.jpg" },
+                    { new Guid("9111ce96-9da2-4cb8-90f7-08dab9773926"), "image/jpeg", "ku8nqdzb51k1b5mmnuon.jpg", 91755L, "http://res.cloudinary.com/monarchz/image/upload/v1667025386/ietls/images/ku8nqdzb51k1b5mmnuon-40a280f4-3a28-4f03-bf16-b6b90d4a2fb0.jpg" }
+                });
 
             migrationBuilder.InsertData(
-                table: "Attachments",
-                columns: new[] { "Id", "ContentType", "FileName", "Length", "Url" },
-                values: new object[] { new Guid("9111ce96-9da2-4cb8-90f7-08dab9773926"), "image/jpeg", "ku8nqdzb51k1b5mmnuon.jpg", 91755L, "http://res.cloudinary.com/monarchz/image/upload/v1667025386/ietls/images/ku8nqdzb51k1b5mmnuon-40a280f4-3a28-4f03-bf16-b6b90d4a2fb0.jpg" });
+                table: "Users",
+                columns: new[] { "Id", "AvatarId", "DateOfBirth", "Email", "FirstName", "Gender", "IsActive", "LastName", "Password" },
+                values: new object[] { new Guid("c54a474e-ac00-4057-85b2-ed407135d528"), null, new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "user@gmail.com", "User", "Male", true, "Default", "$2a$11$2yetTvA.CA3opcE1Ixr1I.WBqBEZsrl0vI2MWPhAYT6tt0/rf5XWa" });
 
             migrationBuilder.InsertData(
                 table: "Managers",
@@ -339,7 +344,7 @@ namespace EFCore.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AvatarId", "DateOfBirth", "Email", "FirstName", "Gender", "IsActive", "LastName", "Password" },
-                values: new object[] { new Guid("c54a474e-ac00-4057-85b2-ed407135d528"), new Guid("9111ce96-9da2-4cb8-90f7-08dab9773926"), new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "user@gmail.com", "User", "Male", true, "Default", "$2a$11$2yetTvA.CA3opcE1Ixr1I.WBqBEZsrl0vI2MWPhAYT6tt0/rf5XWa" });
+                values: new object[] { new Guid("b6e82736-f3bc-41b0-586c-08dabcf27cfe"), new Guid("31902f79-115e-4a27-f01a-08dabcf288f9"), new DateTime(2000, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "hieunt@gmail.com", "Hieu", "Male", true, "Nguyen", "$2a$11$afcgukPItq13XuA2W/LFvObQxeojtyA2w6VZs9nRU3I0cHSMDkPa2" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_QuestionId",

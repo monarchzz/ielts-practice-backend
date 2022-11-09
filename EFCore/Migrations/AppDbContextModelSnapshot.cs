@@ -89,6 +89,14 @@ namespace EFCore.Migrations
                             FileName = "ku8nqdzb51k1b5mmnuon.jpg",
                             Length = 91755L,
                             Url = "http://res.cloudinary.com/monarchz/image/upload/v1667047732/ietls/images/ku8nqdzb51k1b5mmnuon-10c8a962-6a2d-4516-b243-3405e63f8023.jpg"
+                        },
+                        new
+                        {
+                            Id = new Guid("31902f79-115e-4a27-f01a-08dabcf288f9"),
+                            ContentType = "application/octet-stream",
+                            FileName = "image_picker8481115442505803273.jpg",
+                            Length = 91755L,
+                            Url = "http://res.cloudinary.com/monarchz/image/upload/v1667410898/ietls/images/image_picker8481115442505803273-57a39641-3df6-4030-936e-189dcb736334.jpg"
                         });
                 });
 
@@ -423,8 +431,19 @@ namespace EFCore.Migrations
                     b.HasData(
                         new
                         {
+                            Id = new Guid("b6e82736-f3bc-41b0-586c-08dabcf27cfe"),
+                            AvatarId = new Guid("31902f79-115e-4a27-f01a-08dabcf288f9"),
+                            DateOfBirth = new DateTime(2000, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "hieunt@gmail.com",
+                            FirstName = "Hieu",
+                            Gender = "Male",
+                            IsActive = true,
+                            LastName = "Nguyen",
+                            Password = "$2a$11$afcgukPItq13XuA2W/LFvObQxeojtyA2w6VZs9nRU3I0cHSMDkPa2"
+                        },
+                        new
+                        {
                             Id = new Guid("c54a474e-ac00-4057-85b2-ed407135d528"),
-                            AvatarId = new Guid("9111ce96-9da2-4cb8-90f7-08dab9773926"),
                             DateOfBirth = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "user@gmail.com",
                             FirstName = "User",
